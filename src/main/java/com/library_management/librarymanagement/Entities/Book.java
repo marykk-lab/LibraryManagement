@@ -1,4 +1,4 @@
-package com.library_management.librarymanagement.Ent;
+package com.library_management.librarymanagement.Entities;
 
 
 import jakarta.persistence.*;

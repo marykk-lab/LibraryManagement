@@ -1,4 +1,4 @@
-package com.library_management.librarymanagement.Ent;
+package com.library_management.librarymanagement.Entities;
 
 import jakarta.persistence.*;
 
@@ -12,7 +12,6 @@ public class Borrower {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "borrower_id")
     private Long borrowerID;
-
 
     private LocalDate borrowingDate;
     private LocalDate returnDate;
