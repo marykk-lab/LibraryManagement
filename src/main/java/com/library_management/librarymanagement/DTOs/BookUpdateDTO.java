@@ -1,0 +1,60 @@
+package com.library_management.librarymanagement.DTOs;
+
+public class BookUpdateDTO {
+    private Long bookID;
+    private String title;
+    private Long authorID;
+    private Long publisherID;
+
+    public BookUpdateDTO(Long bookID, String title, Long authorID, Long publisherID) {
+        this.bookID = bookID;
+        this.title = title;
+        this.authorID = authorID;
+        this.publisherID = publisherID;
+    }
+
+    public BookUpdateDTO() {
+    }
+
+    public Long getBookID() {
+        return bookID;
+    }
+
+    public void setBookID(Long bookID) {
+        this.bookID = bookID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Long getAuthorID() {
+        return authorID;
+    }
+
+    public void setAuthorID(Long authorID) {
+        this.authorID = authorID;
+    }
+
+    public Long getPublisherID() {
+        return publisherID;
+    }
+
+    public void setPublisherID(Long publisherID) {
+        this.publisherID = publisherID;
+    }
+
+    @Override
+    public String toString() {
+        return "BookUpdateDTO{" +
+                "bookID=" + bookID +
+                ", title='" + title + '\'' +
+                ", authorID=" + authorID +
+                ", publisherID=" + publisherID +
+                '}';
+    }
+}
