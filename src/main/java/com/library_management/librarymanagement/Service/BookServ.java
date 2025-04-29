@@ -1,6 +1,8 @@
 package com.library_management.librarymanagement.Service;
 
 import com.library_management.librarymanagement.DTOs.BookDTO;
+import com.library_management.librarymanagement.DTOs.BookSaveDTO;
+import com.library_management.librarymanagement.DTOs.BookUpdateDTO;
 import com.library_management.librarymanagement.Entities.Book;
 import com.library_management.librarymanagement.Repositories.AuthorRep;
 import com.library_management.librarymanagement.Repositories.BookRep;
@@ -17,13 +19,55 @@ public class BookServ {
     @Autowired
     private AuthorRep authorRep;
 
+    public String addBook(BookSaveDTO bookSaveDTO){
+        String title = bookSaveDTO.getTitle();
+        if (!title.isBlank()&&!title.isEmpty()){
+            Book book = new Book(title, authorRep.getReferenceById(bookSaveDTO.getAuthorID()));
+            bookRep.save(book);
+            return title;
+        }
+        throw new IllegalArgumentException("Book title is required!");
+    }
+
+    public String updateBook(BookUpdateDTO bookUpdateDTO){
+        if (bookRep.existsById(bookUpdateDTO.getBookID())) {
+            Book book = bookRep.getReferenceById(bookUpdateDTO.getBookID());
+            book.setTitle(bookUpdateDTO.getTitle());
+            book.setAuthor(authorRep.getReferenceById(bookUpdateDTO.getAuthorID()));
+            bookRep.save(book);
+            return book.getTitle();
+        }
+        throw new IllegalArgumentException("Book ID doesnt exist!");
+    }
+
     public ArrayList<BookDTO> getBooks(){
         List<Book> allBooks = bookRep.findAll();
-        ArrayList<BookDTO> bookDTOArray = new ArrayList<>();
+        ArrayList<BookDTO> DTOBookArray = new ArrayList<>();
         for (Book book : allBooks){
-            BookDTO bookDTO = new BookDTO(book.getBookID(), book.getTitle(), book.getAuthor());
-            bookDTOArray.add(bookDTO);
+            BookDTO DTOBook = new BookDTO(book.getBookID(), book.getTitle(), book.getAuthor());
+            DTOBookArray.add(DTOBook);
         }
-        return bookDTOArray;
+        return DTOBookArray;
+    }
+
+    public Long deleteBookById(Long ID){
+        if (bookRep.existsById(ID)){
+            bookRep.deleteById(ID);
+            return ID;
+        }
+        throw new IllegalArgumentException("This ID doesnt exist!");
+    }
+
+    public String deleteBookByTitle(String title){
+        List<Book> allBooks = bookRep.findAll();
+        if (!title.isBlank()&&!title.isEmpty()){
+            for (Book book : allBooks){
+                if (book.getTitle().equals(title)){
+                    authorRep.deleteById(book.getBookID());
+                    return title;
+                }
+            }
+        }
+        throw new IllegalArgumentException("This title doesnt exist!");
     }
 }

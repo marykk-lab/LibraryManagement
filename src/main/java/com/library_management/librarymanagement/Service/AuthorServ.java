@@ -18,7 +18,7 @@ public class AuthorServ{
 
     public String addAuthor(AuthorSaveDTO authorSaveDTO) {
          String name = authorSaveDTO.getName();
-         if (name!=null && !name.isBlank()){
+         if (!name.isEmpty() && !name.isBlank()){
              Author newAuthor = new Author(name);
              authorRep.save(newAuthor);
              return name;
@@ -28,7 +28,7 @@ public class AuthorServ{
 
     public String updateAuthor(AuthorUpdateDTO authorUpdateDTO) {
         if (authorRep.existsById(authorUpdateDTO.getAuthorID())) {
-            Author author = authorRep.getById(authorUpdateDTO.getAuthorID());
+            Author author = authorRep.getReferenceById(authorUpdateDTO.getAuthorID());
             author.setName(authorUpdateDTO.getName());
             authorRep.save(author);
             return author.getName();
@@ -36,12 +36,12 @@ public class AuthorServ{
         throw new IllegalArgumentException("Author ID doesnt exist!");
     }
 
-    public Long deleteAuthor(Long ID){
+    public Long deleteAuthorById(Long ID){
         if (authorRep.existsById(ID)){
             authorRep.deleteById(ID);
             return ID;
         }
-        throw new IllegalArgumentException("This ID doesnt exist");
+        throw new IllegalArgumentException("This ID doesnt exist!");
     }
 
     public ArrayList<AuthorDTO> getAuthors(){
@@ -52,6 +52,19 @@ public class AuthorServ{
             DTOAuthorsArray.add(DTOAuthor);
         }
         return DTOAuthorsArray;
+    }
+
+    public String deleteAuthorByName(String name){
+        List<Author> allAuthors = authorRep.findAll();
+        if (!name.isBlank()&&!name.isEmpty()){
+            for (Author author : allAuthors){
+                if (author.getName().equals(name)){
+                    authorRep.deleteById(author.getAuthorID());
+                    return name;
+                }
+            }
+        }
+        throw new IllegalArgumentException("This name doesnt exist!");
     }
 
 }

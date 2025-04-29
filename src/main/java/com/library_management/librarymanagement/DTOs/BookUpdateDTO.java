@@ -4,13 +4,11 @@ public class BookUpdateDTO {
     private Long bookID;
     private String title;
     private Long authorID;
-    private Long publisherID;
 
-    public BookUpdateDTO(Long bookID, String title, Long authorID, Long publisherID) {
+    public BookUpdateDTO(Long bookID, String title, Long authorID) {
         this.bookID = bookID;
         this.title = title;
         this.authorID = authorID;
-        this.publisherID = publisherID;
     }
 
     public BookUpdateDTO() {
@@ -40,13 +38,6 @@ public class BookUpdateDTO {
         this.authorID = authorID;
     }
 
-    public Long getPublisherID() {
-        return publisherID;
-    }
-
-    public void setPublisherID(Long publisherID) {
-        this.publisherID = publisherID;
-    }
 
     @Override
     public String toString() {
@@ -54,7 +45,6 @@ public class BookUpdateDTO {
                 "bookID=" + bookID +
                 ", title='" + title + '\'' +
                 ", authorID=" + authorID +
-                ", publisherID=" + publisherID +
                 '}';
     }
 }
