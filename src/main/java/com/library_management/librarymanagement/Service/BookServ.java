@@ -4,6 +4,7 @@ import com.library_management.librarymanagement.DTOs.BookDTO;
 import com.library_management.librarymanagement.DTOs.BookSaveDTO;
 import com.library_management.librarymanagement.DTOs.BookUpdateDTO;
 import com.library_management.librarymanagement.Entities.Book;
+import com.library_management.librarymanagement.Entities.Borrower;
 import com.library_management.librarymanagement.Repositories.AuthorRep;
 import com.library_management.librarymanagement.Repositories.BookRep;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class BookServ {
@@ -69,5 +71,12 @@ public class BookServ {
             }
         }
         throw new IllegalArgumentException("This title doesnt exist!");
+    }
+
+    public Set<Borrower> getBorrowersByID(Long ID){
+        if (bookRep.existsById(ID)){
+            return bookRep.getReferenceById(ID).getBorrowers();
+        }
+        throw new IllegalArgumentException("This ID doesnt exist!");
     }
 }

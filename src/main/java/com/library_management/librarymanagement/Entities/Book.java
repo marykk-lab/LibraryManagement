@@ -3,6 +3,7 @@ package com.library_management.librarymanagement.Entities;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -21,7 +22,7 @@ public class Book {
     private Author author;
 
     @OneToMany(mappedBy = "book")
-    private Set<Borrower> borrowers;
+    private Set<Borrower> borrowers = new HashSet<>();
 
     public Book(Long bookID, String title, Author author) {
         this.bookID = bookID;
@@ -59,6 +60,10 @@ public class Book {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public Set<Borrower> getBorrowers() {
+        return borrowers;
     }
 
     @Override

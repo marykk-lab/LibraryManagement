@@ -17,8 +17,7 @@ public class AuthorRestContr {
 
     @PostMapping(path = "/add_author")
     public String addAuthor(@RequestBody AuthorSaveDTO authorSaveDTO){
-        String name = authorServ.addAuthor(authorSaveDTO);
-        return "Successfully added";
+        return authorServ.addAuthor(authorSaveDTO);
     }
 
     @GetMapping(path = "/get_all_authors")

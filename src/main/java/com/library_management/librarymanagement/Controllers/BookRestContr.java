@@ -16,8 +16,7 @@ public class BookRestContr {
 
     @PostMapping(path = "/add_book")
     public String addBook(@RequestBody BookSaveDTO bookSaveDTO){
-        String title = bookServ.addBook(bookSaveDTO);
-        return "Successfully added";
+        return bookServ.addBook(bookSaveDTO);
     }
 
     @GetMapping(path = "/get_all_books")
