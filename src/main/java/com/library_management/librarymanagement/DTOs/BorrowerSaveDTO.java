@@ -1,30 +1,31 @@
 package com.library_management.librarymanagement.DTOs;
 
 public class BorrowerSaveDTO {
-    private String title;
-    private Long authorID;
+    private Long bookID;
+    private Long userID;
 
-    public BorrowerSaveDTO(String title, Long authorID) {
-        this.title = title;
-        this.authorID = authorID;
+    public BorrowerSaveDTO(Long bookID, Long userID) {
+        this.bookID = bookID;
+        this.userID = userID;
     }
 
     public BorrowerSaveDTO() {
     }
 
-    public String getTitle() {
-        return title;
+
+    public Long getBookID() {
+        return bookID;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setBookID(Long authorID) {
+        this.bookID = authorID;
     }
 
-    public Long getAuthorID() {
-        return authorID;
+    public Long getUserID() {
+        return userID;
     }
 
-    public void setAuthorID(Long authorID) {
-        this.authorID = authorID;
+    public void setUserID(Long userID) {
+        this.userID = userID;
     }
 }
