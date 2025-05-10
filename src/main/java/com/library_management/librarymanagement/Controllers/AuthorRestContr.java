@@ -25,6 +25,11 @@ public class AuthorRestContr {
         return authorServ.getAuthors();
     }
 
+    @GetMapping(path = "/get_author_by_id/{id}")
+    public AuthorDTO getAuthorByID(@PathVariable(value = "id")Long id){
+        return authorServ.getAuthorByID(id);
+    }
+
     @PutMapping(path = "/update_author")
     public String updateAuthor(@RequestBody AuthorUpdateDTO authorUpdateDTO){
         return authorServ.updateAuthor(authorUpdateDTO);

@@ -38,6 +38,14 @@ public class Book {
     public Book() {
     }
 
+    public boolean addBorrower(Borrower borrower){
+        if (borrower!=null) {
+            borrowers.add(borrower);
+            return true;
+        }
+        return false;
+    }
+
     public Long getBookID() {
         return bookID;
     }

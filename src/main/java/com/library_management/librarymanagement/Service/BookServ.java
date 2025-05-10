@@ -26,7 +26,7 @@ public class BookServ {
         if (!title.isBlank()&&!title.isEmpty()){
             Book book = new Book(title, authorRep.getReferenceById(bookSaveDTO.getAuthorID()));
             bookRep.save(book);
-            return title;
+            return "Book was added - " + title;
         }
         throw new IllegalArgumentException("Book title is required!");
     }
@@ -35,9 +35,9 @@ public class BookServ {
         if (bookRep.existsById(bookUpdateDTO.getBookID())) {
             Book book = bookRep.getReferenceById(bookUpdateDTO.getBookID());
             book.setTitle(bookUpdateDTO.getTitle());
-            book.setAuthor(authorRep.getReferenceById(bookUpdateDTO.getAuthorID()));
+            book.setAuthor(bookRep.getReferenceById(bookUpdateDTO.getAuthorID()));
             bookRep.save(book);
-            return book.getTitle();
+            return "Book was updated - " + book.getTitle();
         }
         throw new IllegalArgumentException("Book ID doesnt exist!");
     }
@@ -65,17 +65,19 @@ public class BookServ {
         if (!title.isBlank()&&!title.isEmpty()){
             for (Book book : allBooks){
                 if (book.getTitle().equals(title)){
-                    authorRep.deleteById(book.getBookID());
-                    return title;
+                    bookRep.deleteById(book.getBookID());
+                    return "Book was deleted - " + title;
                 }
             }
         }
         throw new IllegalArgumentException("This title doesnt exist!");
     }
 
-    public Set<Borrower> getBorrowersByID(Long ID){
+    public BookDTO getBookByID(Long ID){
         if (bookRep.existsById(ID)){
-            return bookRep.getReferenceById(ID).getBorrowers();
+            Book book = bookRep.getReferenceById(ID).getBook();
+            BookDTO bookDTO = new BookDTO(book.getBookID(), book.getTitle(), book.getAuthor());
+            return bookDTO;
         }
         throw new IllegalArgumentException("This ID doesnt exist!");
     }

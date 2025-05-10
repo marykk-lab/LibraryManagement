@@ -10,15 +10,15 @@ public class BorrowerDTO {
 
     private LocalDate borrowingDate;
     private LocalDate returnDate;
-    private Book book;
-    private User user;
+    private Long bookID;
+    private Long userID;
 
-    public BorrowerDTO(Long borrowerID, LocalDate borrowingDate, LocalDate returnDate, Book book, User user) {
+    public BorrowerDTO(Long borrowerID, LocalDate borrowingDate, LocalDate returnDate, Long bookID, Long userID) {
         this.borrowerID = borrowerID;
         this.borrowingDate = borrowingDate;
         this.returnDate = returnDate;
-        this.book = book;
-        this.user = user;
+        this.bookID = bookID;
+        this.userID = userID;
     }
 
     public BorrowerDTO() {
@@ -48,20 +48,20 @@ public class BorrowerDTO {
         this.returnDate = returnDate;
     }
 
-    public Book getBook() {
-        return book;
+    public Book getBookID() {
+        return bookID;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setBookID(Long bookID) {
+        this.bookID = bookID;
     }
 
-    public User getUser() {
-        return user;
+    public User getUserID() {
+        return userID;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserID(Long userID) {
+        this.userID = userID;
     }
 
     @Override
@@ -70,8 +70,8 @@ public class BorrowerDTO {
                 "borrowerID=" + borrowerID +
                 ", borrowingDate=" + borrowingDate +
                 ", returnDate=" + returnDate +
-                ", book=" + book +
-                ", user=" + user +
+                ", bookID=" + bookID +
+                ", userID=" + userID +
                 '}';
     }
 }

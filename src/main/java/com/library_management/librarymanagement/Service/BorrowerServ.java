@@ -2,6 +2,7 @@ package com.library_management.librarymanagement.Service;
 
 import com.library_management.librarymanagement.DTOs.BorrowerDTO;
 import com.library_management.librarymanagement.DTOs.BorrowerSaveDTO;
+import com.library_management.librarymanagement.DTOs.BorrowerUpdateDTO;
 import com.library_management.librarymanagement.Entities.Book;
 import com.library_management.librarymanagement.Entities.Borrower;
 import com.library_management.librarymanagement.Entities.User;
@@ -32,6 +33,7 @@ public class BorrowerServ {
             Book book = bookRep.getReferenceById(borrowerSaveDTO.getBookID());
             User user = userRep.getReferenceById(borrowerSaveDTO.getUserID());
             Borrower borrower = new Borrower(localDate, localDate.plusDays(5), book, user);
+            book.addBorrower(borrower);
             borrowerRep.save(borrower);
             return borrowerSaveDTO.getBookID();
         }
@@ -52,6 +54,16 @@ public class BorrowerServ {
         if (borrowerRep.existsById(ID)){
             borrowerRep.deleteById(ID);
             return ID;
+        }
+        throw new IllegalArgumentException("This ID doesnt exist!");
+    }
+
+    public BorrowerDTO getBorrowerByID(Long ID){
+        if (borrowerRep.existsById(ID)) {
+            Borrower borrower = borrowerRep.getReferenceById(ID);
+            BorrowerDTO borrowerDTO = new BorrowerDTO(borrower.getBorrowerID(), borrower.getBorrowingDate(), 
+            borrower.getReturnDate(), borrower.getBook().getBookID(), borrower.getUser().getUserID());
+            return borrowerDTO;
         }
         throw new IllegalArgumentException("This ID doesnt exist!");
     }

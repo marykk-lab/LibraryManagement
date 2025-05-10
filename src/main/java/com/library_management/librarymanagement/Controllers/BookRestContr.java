@@ -1,6 +1,7 @@
 package com.library_management.librarymanagement.Controllers;
 
 import com.library_management.librarymanagement.DTOs.*;
+import com.library_management.librarymanagement.Entities.Book;
 import com.library_management.librarymanagement.Service.AuthorServ;
 import com.library_management.librarymanagement.Service.BookServ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,22 +21,27 @@ public class BookRestContr {
     }
 
     @GetMapping(path = "/get_all_books")
-    public List<BookDTO> getAuthors(){
+    public List<BookDTO> getBooks(){
         return bookServ.getBooks();
     }
 
+    @GetMapping(path = "/get_book_by_id/{id}")
+    public BookDTO getBookByID(@PathVariable(value = "id")Long id){
+        return bookServ.getBookByID(id);
+    }
+
     @PutMapping(path = "/update_book")
-    public String updateAuthor(@RequestBody BookUpdateDTO bookUpdateDTO){
+    public String updateBook(@RequestBody BookUpdateDTO bookUpdateDTO){
         return bookServ.updateBook(bookUpdateDTO);
     }
 
     @DeleteMapping(path = "/delete_book_by_id/{id}")
-    public Long deleteAuthorById(@PathVariable(value = "id")Long id){
+    public Long deleteBookById(@PathVariable(value = "id")Long id){
         return bookServ.deleteBookById(id);
     }
 
     @DeleteMapping(path = "/delete_book_by_title")
-    public String deleteAuthorByName(@RequestParam String title){
+    public String deleteBookByTitle(@RequestParam String title){
         return bookServ.deleteBookByTitle(title);
     }
 }

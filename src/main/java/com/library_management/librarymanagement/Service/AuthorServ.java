@@ -21,7 +21,7 @@ public class AuthorServ{
          if (!name.isEmpty() && !name.isBlank()){
              Author newAuthor = new Author(name);
              authorRep.save(newAuthor);
-             return name;
+             return "Author was added - " + name;
          }
          throw new IllegalArgumentException("Author name is required!");
     }
@@ -31,7 +31,7 @@ public class AuthorServ{
             Author author = authorRep.getReferenceById(authorUpdateDTO.getAuthorID());
             author.setName(authorUpdateDTO.getName());
             authorRep.save(author);
-            return author.getName();
+            return "Author was updated - " + author.getName();
         }
         throw new IllegalArgumentException("Author ID doesnt exist!");
     }
@@ -54,13 +54,22 @@ public class AuthorServ{
         return DTOAuthorsArray;
     }
 
+    public AuthorDTO getAuthorByID(Long ID){
+        if(authorRep.existsById(ID)){
+            Author author = authorRep.getReferenceById(ID);
+            AuthorDTO authorDTO = new AuthorDTO(author.getAuthorID(), author.getName());
+            return authorDTO;
+        }
+        throw new IllegalArgumentException("This ID doesnt exist!");
+    }
+
     public String deleteAuthorByName(String name){
         List<Author> allAuthors = authorRep.findAll();
         if (!name.isBlank()&&!name.isEmpty()){
             for (Author author : allAuthors){
                 if (author.getName().equals(name)){
                     authorRep.deleteById(author.getAuthorID());
-                    return name;
+                    return "Book was deleted - " + name;
                 }
             }
         }

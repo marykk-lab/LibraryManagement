@@ -5,12 +5,12 @@ import com.library_management.librarymanagement.Entities.Author;
 public class BookDTO {
     private Long bookID;
     private String title;
-    private Author author;
+    private Long authorID;
 
-    public BookDTO(Long bookID, String title, Author author) {
+    public BookDTO(Long bookID, String title, Long authorID) {
         this.bookID = bookID;
         this.title = title;
-        this.author = author;
+        this.authorID = authorID;
     }
 
     public BookDTO() {
@@ -32,12 +32,12 @@ public class BookDTO {
         this.title = title;
     }
 
-    public Author getAuthor() {
-        return author;
+    public Author getAuthorID() {
+        return authorID;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setAuthorID(Long authorID) {
+        this.authorID = authorID;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class BookDTO {
         return "BookDTO{" +
                 "bookID=" + bookID +
                 ", title='" + title + '\'' +
-                ", author=" + author +
+                ", authorID=" + authorID +
                 '}';
     }
 }
