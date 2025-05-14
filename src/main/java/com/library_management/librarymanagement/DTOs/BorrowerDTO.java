@@ -48,7 +48,7 @@ public class BorrowerDTO {
         this.returnDate = returnDate;
     }
 
-    public Book getBookID() {
+    public Long getBookID() {
         return bookID;
     }
 
@@ -56,7 +56,7 @@ public class BorrowerDTO {
         this.bookID = bookID;
     }
 
-    public User getUserID() {
+    public Long getUserID() {
         return userID;
     }
 

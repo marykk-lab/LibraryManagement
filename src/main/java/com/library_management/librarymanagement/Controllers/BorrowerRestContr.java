@@ -15,7 +15,7 @@ public class BorrowerRestContr {
     private BorrowerServ borrowerServ;
 
     @PostMapping(path = "/add_borrow")
-    public String addAuthor(@RequestBody BorrowerSaveDTO borrowerSaveDTO){
+    public Long addAuthor(@RequestBody BorrowerSaveDTO borrowerSaveDTO){
         return borrowerServ.addBorrow(borrowerSaveDTO);
     }
 
@@ -31,6 +31,6 @@ public class BorrowerRestContr {
 
     @DeleteMapping(path = "/delete_borrow_by_id/{id}")
     public Long deleteBorrowById(@PathVariable(value = "id")Long id){
-        return borrowerServ.deleteBorrowerById(id);
+        return borrowerServ.deleteBorrowerByID(id);
     }
 }

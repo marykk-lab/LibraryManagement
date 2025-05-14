@@ -44,7 +44,7 @@ public class BorrowerServ {
         List<Borrower> allBorrows = borrowerRep.findAll();
         ArrayList<BorrowerDTO> DTOBorrowsArray = new ArrayList<>();
         for (Borrower borrower : allBorrows){
-            BorrowerDTO borrowerDTO = new BorrowerDTO(borrower.getBorrowerID(), borrower.getBorrowingDate(), borrower.getReturnDate(), borrower.getBook(), borrower.getUser());
+            BorrowerDTO borrowerDTO = new BorrowerDTO(borrower.getBorrowerID(), borrower.getBorrowingDate(), borrower.getReturnDate(), borrower.getBook().getBookID(), borrower.getUser().getUserID());
             DTOBorrowsArray.add(borrowerDTO);
         }
         return DTOBorrowsArray;

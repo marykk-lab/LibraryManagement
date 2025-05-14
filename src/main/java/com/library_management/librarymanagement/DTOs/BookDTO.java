@@ -32,7 +32,7 @@ public class BookDTO {
         this.title = title;
     }
 
-    public Author getAuthorID() {
+    public Long getAuthorID() {
         return authorID;
     }
 

@@ -3,8 +3,8 @@ services:
     image: postgres:17
     environment:
       POSTGRES_DB: library
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: vfrcbv07
+      POSTGRES_USER: ${MY_DB_USERNAME}
+      POSTGRES_PASSWORD: ${MY_DB_PASSWORD}
     ports:
       - "8000:8000"
     volumes:
@@ -15,11 +15,11 @@ services:
     depends_on:
       - postgres
     ports:
-      - "8080:8080"
+      - "5432:5432"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:8000/library
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: vfrcbv07
+      SPRING_DATASOURCE_USERNAME: ${MY_DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${MY_DB_PASSWORD}
     restart: always
 
 volumes:

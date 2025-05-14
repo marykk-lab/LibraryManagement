@@ -35,7 +35,7 @@ public class BookServ {
         if (bookRep.existsById(bookUpdateDTO.getBookID())) {
             Book book = bookRep.getReferenceById(bookUpdateDTO.getBookID());
             book.setTitle(bookUpdateDTO.getTitle());
-            book.setAuthor(bookRep.getReferenceById(bookUpdateDTO.getAuthorID()));
+            book.setAuthor(authorRep.getReferenceById(bookUpdateDTO.getAuthorID()));
             bookRep.save(book);
             return "Book was updated - " + book.getTitle();
         }
@@ -46,7 +46,7 @@ public class BookServ {
         List<Book> allBooks = bookRep.findAll();
         ArrayList<BookDTO> DTOBookArray = new ArrayList<>();
         for (Book book : allBooks){
-            BookDTO DTOBook = new BookDTO(book.getBookID(), book.getTitle(), book.getAuthor());
+            BookDTO DTOBook = new BookDTO(book.getBookID(), book.getTitle(), book.getAuthor().getAuthorID());
             DTOBookArray.add(DTOBook);
         }
         return DTOBookArray;
@@ -75,8 +75,8 @@ public class BookServ {
 
     public BookDTO getBookByID(Long ID){
         if (bookRep.existsById(ID)){
-            Book book = bookRep.getReferenceById(ID).getBook();
-            BookDTO bookDTO = new BookDTO(book.getBookID(), book.getTitle(), book.getAuthor());
+            Book book = bookRep.getReferenceById(ID);
+            BookDTO bookDTO = new BookDTO(book.getBookID(), book.getTitle(), book.getAuthor().getAuthorID());
             return bookDTO;
         }
         throw new IllegalArgumentException("This ID doesnt exist!");
