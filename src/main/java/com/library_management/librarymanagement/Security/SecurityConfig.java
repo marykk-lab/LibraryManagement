@@ -98,7 +98,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsImpl userDetailsService() {
-        return new UserDetailsImpl(); // your implementation
+        return new UserDetailsImpl();
     }
 
     @Bean

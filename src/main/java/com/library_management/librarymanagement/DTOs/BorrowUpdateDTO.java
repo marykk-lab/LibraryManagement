@@ -1,11 +1,11 @@
 package com.library_management.librarymanagement.DTOs;
 
-public class BorrowerUpdateDTO {
+public class BorrowUpdateDTO {
     private Long bookID;
     private String title;
     private Long authorID;
 
-    public BorrowerUpdateDTO(Long bookID, String title, Long authorID) {
+    public BorrowUpdateDTO(Long bookID, String title, Long authorID) {
         this.bookID = bookID;
         this.title = title;
         this.authorID = authorID;

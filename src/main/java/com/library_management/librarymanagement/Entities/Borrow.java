@@ -6,12 +6,12 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name="borrow")
-public class Borrower {
+public class Borrow {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "borrower_id")
-    private Long borrowerID;
+    @Column(name = "borrow_id")
+    private Long borrowID;
 
     private LocalDate borrowingDate;
     private LocalDate returnDate;
@@ -24,30 +24,30 @@ public class Borrower {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Borrower(Long borrowerID, LocalDate borrowingDate, LocalDate returnDate, Book book, User user) {
-        this.borrowerID = borrowerID;
+    public Borrow(Long borrowID, LocalDate borrowingDate, LocalDate returnDate, Book book, User user) {
+        this.borrowID = borrowID;
         this.borrowingDate = borrowingDate;
         this.returnDate = returnDate;
         this.book = book;
         this.user = user;
     }
 
-    public Borrower(LocalDate borrowingDate, LocalDate returnDate, Book book, User user) {
+    public Borrow(LocalDate borrowingDate, LocalDate returnDate, Book book, User user) {
         this.borrowingDate = borrowingDate;
         this.returnDate = returnDate;
         this.book = book;
         this.user = user;
     }
 
-    public Borrower() {
+    public Borrow() {
     }
 
-    public Long getBorrowerID() {
-        return borrowerID;
+    public Long getBorrowID() {
+        return borrowID;
     }
 
-    public void setBorrowerID(Long borrowerID) {
-        this.borrowerID = borrowerID;
+    public void setBorrowID(Long borrowID) {
+        this.borrowID = borrowID;
     }
 
     public LocalDate getBorrowingDate() {
@@ -84,8 +84,8 @@ public class Borrower {
 
     @Override
     public String toString() {
-        return "Borrower{" +
-                "borrowerID=" + borrowerID +
+        return "Borrow{" +
+                "borrowID=" + borrowID +
                 ", borrowingDate=" + borrowingDate +
                 ", returnDate=" + returnDate +
                 ", book=" + book +

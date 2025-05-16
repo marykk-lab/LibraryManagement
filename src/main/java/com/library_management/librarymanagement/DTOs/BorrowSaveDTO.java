@@ -1,15 +1,15 @@
 package com.library_management.librarymanagement.DTOs;
 
-public class BorrowerSaveDTO {
+public class BorrowSaveDTO {
     private Long bookID;
     private Long userID;
 
-    public BorrowerSaveDTO(Long bookID, Long userID) {
+    public BorrowSaveDTO(Long bookID, Long userID) {
         this.bookID = bookID;
         this.userID = userID;
     }
 
-    public BorrowerSaveDTO() {
+    public BorrowSaveDTO() {
     }
 
 

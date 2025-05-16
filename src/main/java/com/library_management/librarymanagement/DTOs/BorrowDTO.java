@@ -5,31 +5,31 @@ import com.library_management.librarymanagement.Entities.User;
 
 import java.time.LocalDate;
 
-public class BorrowerDTO {
-    private Long borrowerID;
+public class BorrowDTO {
+    private Long borrowID;
 
     private LocalDate borrowingDate;
     private LocalDate returnDate;
     private Long bookID;
     private Long userID;
 
-    public BorrowerDTO(Long borrowerID, LocalDate borrowingDate, LocalDate returnDate, Long bookID, Long userID) {
-        this.borrowerID = borrowerID;
+    public BorrowDTO(Long borrowID, LocalDate borrowingDate, LocalDate returnDate, Long bookID, Long userID) {
+        this.borrowID = borrowID;
         this.borrowingDate = borrowingDate;
         this.returnDate = returnDate;
         this.bookID = bookID;
         this.userID = userID;
     }
 
-    public BorrowerDTO() {
+    public BorrowDTO() {
     }
 
-    public Long getBorrowerID() {
-        return borrowerID;
+    public Long getBorrowID() {
+        return borrowID;
     }
 
-    public void setBorrowerID(Long borrowerID) {
-        this.borrowerID = borrowerID;
+    public void setBorrowID(Long borrowID) {
+        this.borrowID = borrowID;
     }
 
     public LocalDate getBorrowingDate() {
@@ -66,8 +66,8 @@ public class BorrowerDTO {
 
     @Override
     public String toString() {
-        return "BorrowerDTO{" +
-                "borrowerID=" + borrowerID +
+        return "BorrowDTO{" +
+                "borrowID=" + borrowID +
                 ", borrowingDate=" + borrowingDate +
                 ", returnDate=" + returnDate +
                 ", bookID=" + bookID +

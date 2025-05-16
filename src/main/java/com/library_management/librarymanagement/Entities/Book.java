@@ -22,7 +22,7 @@ public class Book {
     private Author author;
 
     @OneToMany(mappedBy = "book")
-    private Set<Borrower> borrowers = new HashSet<>();
+    private Set<Borrow> borrows = new HashSet<>();
 
     public Book(Long bookID, String title, Author author) {
         this.bookID = bookID;
@@ -38,9 +38,9 @@ public class Book {
     public Book() {
     }
 
-    public boolean addBorrower(Borrower borrower){
-        if (borrower!=null) {
-            borrowers.add(borrower);
+    public boolean addBorrow(Borrow borrow){
+        if (borrow!=null) {
+            borrows.add(borrow);
             return true;
         }
         return false;
@@ -70,8 +70,8 @@ public class Book {
         this.author = author;
     }
 
-    public Set<Borrower> getBorrowers() {
-        return borrowers;
+    public Set<Borrow> getBorrows() {
+        return borrows;
     }
 
     @Override
@@ -80,7 +80,7 @@ public class Book {
                 "bookID=" + bookID +
                 ", title='" + title + '\'' +
                 ", author=" + author +
-                ", borrowers=" + borrowers +
+                ", borrows=" + borrows +
                 '}';
     }
 }
