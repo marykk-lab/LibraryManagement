@@ -70,11 +70,6 @@ public class SecurityConfig {
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder())
                 .build();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }*/
     @Bean
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -88,16 +83,19 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(
-                        authenticationJwtTokenFilter(),
-                        UsernamePasswordAuthenticationFilter.class
-                );
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/home", true)
+                        .permitAll());
+                //.addFilterBefore(
+                  //      authenticationJwtTokenFilter(),
+                    //    UsernamePasswordAuthenticationFilter.class();
 
         return http.build();
     }
 
     @Bean
-    public UserDetailsImpl userDetailsService() {
+    public UserDetailsImpl userDetailsImplService() {
         return new UserDetailsImpl();
     }
 
