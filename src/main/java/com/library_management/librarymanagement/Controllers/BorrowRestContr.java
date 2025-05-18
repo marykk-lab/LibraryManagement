@@ -14,22 +14,22 @@ public class BorrowRestContr {
     @Autowired
     private BorrowServ borrowServ;
 
-    @PostMapping(path = "/add_borrow")
+    @PostMapping
     public Long addAuthor(@RequestBody BorrowSaveDTO borrowSaveDTO){
         return borrowServ.addBorrow(borrowSaveDTO);
     }
 
-    @GetMapping(path = "/get_all_borrows")
+    @GetMapping
     public List<BorrowDTO> getBorrows(){
         return borrowServ.getBorrows();
     }
 
-    @GetMapping(path = "/get_borrow_by_id/{id}")
+    @GetMapping(path = "/{id}")
     public BorrowDTO getBorrowByID(@PathVariable(value = "id")Long id){
         return borrowServ.getBorrowByID(id);
     }
 
-    @DeleteMapping(path = "/delete_borrow_by_id/{id}")
+    @DeleteMapping(path = "/{id}")
     public Long deleteBorrowById(@PathVariable(value = "id")Long id){
         return borrowServ.deleteBorrowByID(id);
     }

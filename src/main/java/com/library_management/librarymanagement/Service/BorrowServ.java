@@ -22,7 +22,7 @@ public class BorrowServ {
     private UserRep userRep;
 
     @Autowired
-    private BorrowerRep borrowRep;
+    private BorrowRep borrowRep;
 
     @Autowired
     private BookRep bookRep;
@@ -30,8 +30,8 @@ public class BorrowServ {
     public Long addBorrow(BorrowSaveDTO borrowSaveDTO){
         if (borrowSaveDTO!=null){
             LocalDate localDate = LocalDate.now();
-            Book book = bookRep.getReferenceById(borrowerSaveDTO.getBookID());
-            User user = userRep.getReferenceById(borrowerSaveDTO.getUserID());
+            Book book = bookRep.getReferenceById(borrowSaveDTO.getBookID());
+            User user = userRep.getReferenceById(borrowSaveDTO.getUserID());
             Borrow borrow = new Borrow(localDate, localDate.plusDays(5), book, user);
             book.addBorrow(borrow);
             borrowRep.save(borrow);
@@ -44,7 +44,7 @@ public class BorrowServ {
         List<Borrow> allBorrows = borrowRep.findAll();
         ArrayList<BorrowDTO> DTOBorrowsArray = new ArrayList<>();
         for (Borrow borrow : allBorrows){
-            BorrowDTO borrowDTO = new BorrowDTO(borrow.getBorrowID(), borrower.getBorrowingDate(), borrow.getReturnDate(), borrow.getBook().getBookID(), borrow.getUser().getUserID());
+            BorrowDTO borrowDTO = new BorrowDTO(borrow.getBorrowID(), borrow.getBorrowingDate(), borrow.getReturnDate(), borrow.getBook().getBookID(), borrow.getUser().getUserID());
             DTOBorrowsArray.add(borrowDTO);
         }
         return DTOBorrowsArray;
@@ -61,8 +61,8 @@ public class BorrowServ {
     public BorrowDTO getBorrowByID(Long ID){
         if (borrowRep.existsById(ID)) {
             Borrow borrow = borrowRep.getReferenceById(ID);
-            BorrowDTO borrowDTO = new BorrowDTO(borrow.getBorrowID(), borrow.getBorrowingDate(), 
-            borrow.getReturnDate(), borrow.getBook().getBookID(), borrow.getUser().getUserID());
+            BorrowDTO borrowDTO = new BorrowDTO(borrow.getBorrowID(), borrow.getBorrowingDate(),
+                    borrow.getReturnDate(), borrow.getBook().getBookID(), borrow.getUser().getUserID());
             return borrowDTO;
         }
         throw new IllegalArgumentException("This ID doesnt exist!");

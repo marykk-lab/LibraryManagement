@@ -4,7 +4,6 @@ import com.library_management.librarymanagement.DTOs.BookDTO;
 import com.library_management.librarymanagement.DTOs.BookSaveDTO;
 import com.library_management.librarymanagement.DTOs.BookUpdateDTO;
 import com.library_management.librarymanagement.Entities.Book;
-import com.library_management.librarymanagement.Entities.Borrower;
 import com.library_management.librarymanagement.Repositories.AuthorRep;
 import com.library_management.librarymanagement.Repositories.BookRep;
 import org.springframework.beans.factory.annotation.Autowired;

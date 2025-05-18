@@ -15,33 +15,33 @@ public class AuthorRestContr {
     @Autowired
     private AuthorServ authorServ;
 
-    @PostMapping(path = "/add_author")
+    @PostMapping
     public String addAuthor(@RequestBody AuthorSaveDTO authorSaveDTO){
         return authorServ.addAuthor(authorSaveDTO);
     }
 
-    @GetMapping(path = "/get_all_authors")
+    @GetMapping
     public List<AuthorDTO> getAuthors(){
         return authorServ.getAuthors();
     }
 
-    @GetMapping(path = "/get_author_by_id/{id}")
+    @GetMapping(path = "/{id}")
     public AuthorDTO getAuthorByID(@PathVariable(value = "id")Long id){
         return authorServ.getAuthorByID(id);
     }
 
-    @PutMapping(path = "/update_author")
+    @PutMapping
     public String updateAuthor(@RequestBody AuthorUpdateDTO authorUpdateDTO){
         return authorServ.updateAuthor(authorUpdateDTO);
     }
 
-    @DeleteMapping(path = "/delete_author_by_id/{id}")
+    @DeleteMapping(path = "/{id}")
     public Long deleteAuthorById(@PathVariable(value = "id")Long id){
         return authorServ.deleteAuthorById(id);
     }
 
-    @DeleteMapping(path = "/delete_author_by_name")
-    public String deleteAuthorByName(@RequestParam String name){
+    @DeleteMapping(path = "/{name}")
+    public String deleteAuthorByName(@PathVariable(value = "name")String name){
         return authorServ.deleteAuthorByName(name);
     }
 }

@@ -15,33 +15,33 @@ public class BookRestContr {
     @Autowired
     private BookServ bookServ;
 
-    @PostMapping(path = "/add_book")
+    @PostMapping
     public String addBook(@RequestBody BookSaveDTO bookSaveDTO){
         return bookServ.addBook(bookSaveDTO);
     }
 
-    @GetMapping(path = "/get_all_books")
+    @GetMapping
     public List<BookDTO> getBooks(){
         return bookServ.getBooks();
     }
 
-    @GetMapping(path = "/get_book_by_id/{id}")
+    @GetMapping(path = "/{id}")
     public BookDTO getBookByID(@PathVariable(value = "id")Long id){
         return bookServ.getBookByID(id);
     }
 
-    @PutMapping(path = "/update_book")
+    @PutMapping
     public String updateBook(@RequestBody BookUpdateDTO bookUpdateDTO){
         return bookServ.updateBook(bookUpdateDTO);
     }
 
-    @DeleteMapping(path = "/delete_book_by_id/{id}")
+    @DeleteMapping(path = "/{id}")
     public Long deleteBookById(@PathVariable(value = "id")Long id){
         return bookServ.deleteBookById(id);
     }
 
-    @DeleteMapping(path = "/delete_book_by_title")
-    public String deleteBookByTitle(@RequestParam String title){
+    @DeleteMapping(path = "/{name}")
+    public String deleteBookByTitle(@PathVariable(value = "title")String title){
         return bookServ.deleteBookByTitle(title);
     }
 }
