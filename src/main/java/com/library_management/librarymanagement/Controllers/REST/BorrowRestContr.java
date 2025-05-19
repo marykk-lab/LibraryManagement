@@ -1,4 +1,4 @@
-package com.library_management.librarymanagement.Controllers;
+package com.library_management.librarymanagement.Controllers.REST;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.library_management.librarymanagement.DTOs.BorrowDTO;
