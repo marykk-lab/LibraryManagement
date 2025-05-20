@@ -9,4 +9,21 @@ public class MainViewController {
     public String index(){
         return "index";
     }
+
+    @GetMapping(path = "/profile")
+    public String profile(){
+        return "profile";
+    }
+
+    @GetMapping(path = "/register")
+    public String register(){
+        return "register";
+    }
+
+    @GetMapping(path = "/login")
+    public String login(){
+        return "login";
+    }
+
+
 }
