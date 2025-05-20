@@ -1,10 +1,12 @@
 package com.library_management.librarymanagement.Security;
 
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.*;
 
+import java.security.Key;
 import java.util.Date;
 
 @Component
@@ -16,11 +18,24 @@ public class JWTCore {
 
     public String generateToken(Authentication authentication){
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Key key = Keys.hmacShaKeyFor(secret.getBytes());
         return Jwts.builder()
-                .subject((userDetails.getUsername()))
-                .issuedAt(new Date())
-                .expiration(new Date((new Date()).getTime() + lifetime))
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + lifetime))
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public String getNameFromJwt(String token){
+        Key key = Keys.hmacShaKeyFor(secret.getBytes());
+
+        Claims claims = Jwts.parser()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.getSubject();
     }
 }
