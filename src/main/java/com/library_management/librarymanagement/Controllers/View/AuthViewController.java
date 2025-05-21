@@ -13,21 +13,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@RestController
-@RequestMapping("/auth/rest")
-public class AuthController {
+@Controller
+@RequestMapping("/auth")
+public class AuthViewController {
 
     private UserRep userRepository;
     private JWTCore jwtCore;
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
 
-    public AuthController(UserRep userRepository, JWTCore jwtCore, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+    public AuthViewController(UserRep userRepository, JWTCore jwtCore, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.jwtCore = jwtCore;
         this.passwordEncoder = passwordEncoder;
@@ -36,29 +35,32 @@ public class AuthController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody SignUpDTO signUpDTO) {
-        if (userRepository.existsUserByUsername(signUpDTO.getUsername())){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username is already taken.");
+    public String signUp(@ModelAttribute SignUpDTO signUpDTO, RedirectAttributes redirectAttributes) {
+        if (userRepository.existsUserByUsername(signUpDTO.getUsername())) {
+            redirectAttributes.addAttribute("error", "Username is already taken.");
+            return "redirect:/signup";
         }
         User user = new User();
         user.setUsername(signUpDTO.getUsername());
         user.setEmail(signUpDTO.getEmail());
         user.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
         userRepository.save(user);
-        return ResponseEntity.ok("User registered.");
+        return "redirect:/signin";
     }
+
 
 
     @PostMapping("/signin")
-    public ResponseEntity<String> signIn(@RequestBody SignInDTO signInDTO) {
-        Authentication authentication = null;
-        try{
-            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInDTO.getUsername(), signInDTO.getPassword()));
-        }catch (BadCredentialsException e){
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    public String signIn(@ModelAttribute SignInDTO signInDTO, RedirectAttributes redirectAttributes) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(signInDTO.getUsername(), signInDTO.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            return "redirect:/";
+        } catch (BadCredentialsException e) {
+            redirectAttributes.addAttribute("error", "Invalid username or password.");
+            return "redirect:/signin";
         }
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtCore.generateToken(authentication);
-        return ResponseEntity.ok(jwt);
     }
+
 }

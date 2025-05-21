@@ -3,38 +3,54 @@ package com.library_management.librarymanagement.Security;
 import com.library_management.librarymanagement.Entities.User;
 import jakarta.persistence.Column;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
-    private Long userID;
+    private Long id;
     private String username;
-    private String password;
     private String email;
+    private String password;
+    private List<GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long userID, String username, String password, String email) {
-        this.userID = userID;
+    public UserDetailsImpl(Long id, String username, String email, String password, List<GrantedAuthority> authorities) {
+        this.id = id;
         this.username = username;
-        this.password = password;
         this.email = email;
+        this.password = password;
+        this.authorities = authorities;
     }
 
-    public UserDetailsImpl() {
-    }
+    public static UserDetailsImpl build(User user) {
+        List<GrantedAuthority> authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRoleName()))
+                .collect(Collectors.toList());
 
-    public static UserDetailsImpl build(User user){
         return new UserDetailsImpl(
                 user.getUserID(),
                 user.getUsername(),
+                user.getEmail(),
                 user.getPassword(),
-                user.getEmail()
+                authorities
         );
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
@@ -49,21 +65,21 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return true;
     }
 }

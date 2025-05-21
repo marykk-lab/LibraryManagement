@@ -3,39 +3,70 @@ package com.library_management.librarymanagement.Security;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.*;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.function.Function;
 
 @Component
 public class JWTCore {
     @Value("${testing.app.secret}")
     private String secret;
+    private SecretKey secretKey;
     @Value("${testing.app.lifetime}")
     private int lifetime;
 
-    public String generateToken(Authentication authentication){
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        Key key = Keys.hmacShaKeyFor(secret.getBytes());
+    public JWTCore() {
+        byte[] keyBytes = Base64.getDecoder().decode(secret.getBytes(StandardCharsets.UTF_8));
+        this.secretKey = new SecretKeySpec(keyBytes, "HmacSHA256");
+    }
+
+    public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + lifetime))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + lifetime))
+                .signWith(secretKey)
+                .compact();
+    }
+
+    public String generateRefreshToken(HashMap<String, Object> claims, UserDetails userDetails) {
+        return Jwts.builder()
+                .claims(claims)
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + lifetime))
+                .signWith(secretKey)
                 .compact();
     }
 
     public String getNameFromJwt(String token){
-        Key key = Keys.hmacShaKeyFor(secret.getBytes());
+        return extractClaims(token, Claims::getSubject);
+    }
 
-        Claims claims = Jwts.parser()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+    private <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {
+        return claimsResolver.apply(
+                Jwts.parser()
+                        .verifyWith(secretKey)
+                        .build()
+                        .parseSignedClaims(token)
+                        .getPayload());
+    }
 
-        return claims.getSubject();
+    public boolean isTokenValid(String token, UserDetails userDetails){
+        String username = getNameFromJwt(token);
+        return (username.equals(userDetails.getUsername())&&!isTokenExpired(token));
+    }
+
+    public boolean isTokenExpired(String token){
+        return extractClaims(token, Claims::getExpiration).before(new Date());
     }
 }

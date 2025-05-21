@@ -20,13 +20,13 @@ public class MainViewController {
         return "profile";
     }
 
-    @GetMapping(path = "/register")
-    public String register(){
+    @GetMapping(path = "/signup")
+    public String signup(){
         return "register";
     }
 
-    @GetMapping(path = "/login")
-    public String login(){
+    @GetMapping(path = "/signin")
+    public String signin(){
         return "login";
     }
 

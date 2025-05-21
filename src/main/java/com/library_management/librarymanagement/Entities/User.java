@@ -2,6 +2,9 @@ package com.library_management.librarymanagement.Entities;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -19,17 +22,21 @@ public class User {
     @Column(nullable = false,unique = true)
     private String email;
 
-    public User(Long userID, String username, String password, String email) {
+    private String role;
+
+    public User(Long userID, String username, String password, String email, String role) {
         this.userID = userID;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.role = role;
     }
 
-    public User(String username, String password, String email) {
+    public User(String username, String password, String email, String role) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.role = role;
     }
 
     public User() {
@@ -67,6 +74,14 @@ public class User {
         this.email = email;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -74,6 +89,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }
