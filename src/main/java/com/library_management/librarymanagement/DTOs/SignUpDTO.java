@@ -4,12 +4,23 @@ public class SignUpDTO {
     private String username;
     private String password;
     private String email;
-
+    private String message;
+    private int statusCode;
+    private String error;
 
     public SignUpDTO(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
+    }
+
+    public SignUpDTO(String username, String password, String email, String message, int statusCode, String error) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.message = message;
+        this.statusCode = statusCode;
+        this.error = error;
     }
 
     public SignUpDTO() {
@@ -37,5 +48,29 @@ public class SignUpDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }
