@@ -1,10 +1,17 @@
-FROM openjdk:21-jdk-slim
-
-LABEL authors="Maksym Osetsymskyi"
+FROM maven:latest AS builder
 WORKDIR /app
 
-COPY target/LibraryManagement-0.0.1-SNAPSHOT.jar app.jar
+COPY pom.xml .
+COPY src ./src
 
-EXPOSE 5432
+RUN mvn clean package -DskipTests
 
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+FROM openjdk:21-jdk-slim as final
+WORKDIR /app
+LABEL authors="Maksym Osetsymskyi"
+
+COPY --from=builder /app/target/*.jar app.jar
+
+EXPOSE 9000
+ENTRYPOINT ["java", "-jar", "app.jar"]
+

@@ -49,16 +49,16 @@ public class AuthController {
     }
 
 
-    @PostMapping("/signin")
-    public ResponseEntity<String> signIn(@RequestBody SignInDTO signInDTO) {
-        Authentication authentication = null;
-        try{
-            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInDTO.getUsername(), signInDTO.getPassword()));
-        }catch (BadCredentialsException e){
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtCore.generateToken(authentication);
-        return ResponseEntity.ok(jwt);
-    }
+    //@PostMapping("/signin")
+    //public ResponseEntity<String> signIn(@RequestBody SignInDTO signInDTO) {
+    //    Authentication authentication = null;
+    //    try{
+    //        authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInDTO.getUsername(), signInDTO.getPassword()));
+    //    }catch (BadCredentialsException e){
+    //        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    //    }
+    //    SecurityContextHolder.getContext().setAuthentication(authentication);
+    //    String jwt = jwtCore.generateToken(authentication);
+    //    return ResponseEntity.ok(jwt);
+    //}
 }

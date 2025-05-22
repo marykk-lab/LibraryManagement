@@ -18,15 +18,16 @@ import java.util.function.Function;
 
 @Component
 public class JWTCore {
-    @Value("${testing.app.secret}")
-    private String secret;
-    private SecretKey secretKey;
-    @Value("${testing.app.lifetime}")
-    private int lifetime;
+    private final SecretKey secretKey;
+    private final int lifetime;
 
-    public JWTCore() {
+    public JWTCore(
+            @Value("${testing.app.secret}") String secret,
+            @Value("${testing.app.lifetime}") int lifetime
+    ) {
         byte[] keyBytes = Base64.getDecoder().decode(secret.getBytes(StandardCharsets.UTF_8));
         this.secretKey = new SecretKeySpec(keyBytes, "HmacSHA256");
+        this.lifetime = lifetime;
     }
 
     public String generateToken(UserDetails userDetails) {

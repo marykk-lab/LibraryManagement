@@ -1,26 +1,34 @@
-services:
-  postgres:
-    image: postgres:17
-    environment:
-      POSTGRES_DB: library
-      POSTGRES_USER: ${MY_DB_USERNAME}
-      POSTGRES_PASSWORD: ${MY_DB_PASSWORD}
-    ports:
-      - "8000:8000"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+version: '3.9'
 
+services:
   app:
     build: .
-    depends_on:
-      - postgres
     ports:
-      - "5432:5432"
+      - "9000:9000"
+    depends_on:
+      - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:8000/library
-      SPRING_DATASOURCE_USERNAME: ${MY_DB_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${MY_DB_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/library
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: vfrcbv07
+    networks:
+      - backend
+
+  db:
+    image: postgres:17
     restart: always
+    environment:
+      POSTGRES_DB: library
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: vfrcbv07
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend
 
 volumes:
-  pgdata:
+  postgres_data:
+
+networks:
+  backend:
+
