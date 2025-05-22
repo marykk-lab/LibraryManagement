@@ -43,12 +43,12 @@ public class UserManagementService {
     public SignInDTO login(SignInDTO loginRequest) {
         SignInDTO resp = new SignInDTO();
         try {
-            securityConfig.authenticationManager().authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginRequest.getUsername(),
-                            loginRequest.getPassword()
-                    )
-            );
+            //securityConfig.authenticationManager().authenticate(
+            //        new UsernamePasswordAuthenticationToken(
+            //                loginRequest.getUsername(),
+            //                loginRequest.getPassword()
+            //        )
+            //);
 
             User user = userRep.findByUsername(loginRequest.getUsername()).orElseThrow();
             //String jwt = jwtUtils.generateToken(user);
