@@ -6,7 +6,7 @@ COPY src ./src
 
 RUN mvn clean package -DskipTests
 
-FROM openjdk:21-jdk-slim as final
+FROM openjdk:21-jdk-slim AS final
 WORKDIR /app
 LABEL authors="Maksym Osetsymskyi"
 

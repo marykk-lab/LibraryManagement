@@ -1,17 +1,12 @@
-package com.library_management.librarymanagement.Controllers.REST;
+package com.library_management.librarymanagement.Controllers.View;
 
 import com.library_management.librarymanagement.DTOs.SignInDTO;
 import com.library_management.librarymanagement.DTOs.SignUpDTO;
-import com.library_management.librarymanagement.Entities.User;
 import com.library_management.librarymanagement.Repositories.UserRep;
 import com.library_management.librarymanagement.Security.JWTCore;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.library_management.librarymanagement.Service.UserManagementService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +20,14 @@ public class AuthViewController {
     private JWTCore jwtCore;
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
+    private UserManagementService userManagementService;
 
-    public AuthViewController(UserRep userRepository, JWTCore jwtCore, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+    public AuthViewController(UserRep userRepository, JWTCore jwtCore, UserManagementService userManagementService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.jwtCore = jwtCore;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.userManagementService = userManagementService;
     }
 
 
@@ -40,11 +37,7 @@ public class AuthViewController {
             redirectAttributes.addAttribute("error", "Username is already taken.");
             return "redirect:/signup";
         }
-        User user = new User();
-        user.setUsername(signUpDTO.getUsername());
-        user.setEmail(signUpDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
-        userRepository.save(user);
+        userManagementService.signup(signUpDTO);
         return "redirect:/signin";
     }
 
@@ -53,9 +46,7 @@ public class AuthViewController {
     @PostMapping("/signin")
     public String signIn(@ModelAttribute SignInDTO signInDTO, RedirectAttributes redirectAttributes) {
         try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(signInDTO.getUsername(), signInDTO.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            userManagementService.signin(signInDTO);
             return "redirect:/";
         } catch (BadCredentialsException e) {
             redirectAttributes.addAttribute("error", "Invalid username or password.");
