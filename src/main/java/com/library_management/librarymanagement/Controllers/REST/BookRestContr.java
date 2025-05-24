@@ -1,8 +1,6 @@
 package com.library_management.librarymanagement.Controllers.REST;
 
 import com.library_management.librarymanagement.DTOs.*;
-import com.library_management.librarymanagement.Entities.Book;
-import com.library_management.librarymanagement.Service.AuthorServ;
 import com.library_management.librarymanagement.Service.BookServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

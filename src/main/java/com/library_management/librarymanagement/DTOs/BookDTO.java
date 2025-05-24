@@ -1,7 +1,5 @@
 package com.library_management.librarymanagement.DTOs;
 
-import com.library_management.librarymanagement.Entities.Author;
-
 public class BookDTO {
     private Long bookID;
     private String title;

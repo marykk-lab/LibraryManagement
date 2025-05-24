@@ -30,5 +30,9 @@ public class MainViewController {
         return "login";
     }
 
+    @GetMapping(path = "/admin/dashboard")
+    public String adminDashboard(){
+        return "admin_dashboard";
+    }
 
 }

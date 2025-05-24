@@ -2,8 +2,6 @@ package com.library_management.librarymanagement.Entities;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")

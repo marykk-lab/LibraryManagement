@@ -3,11 +3,8 @@ package com.library_management.librarymanagement.Controllers.View;
 import com.library_management.librarymanagement.DTOs.SignInDTO;
 import com.library_management.librarymanagement.DTOs.SignUpDTO;
 import com.library_management.librarymanagement.Repositories.UserRep;
-import com.library_management.librarymanagement.Security.JWTCore;
 import com.library_management.librarymanagement.Service.UserManagementService;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -17,16 +14,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AuthViewController {
 
     private UserRep userRepository;
-    private JWTCore jwtCore;
-    private PasswordEncoder passwordEncoder;
-    private AuthenticationManager authenticationManager;
     private UserManagementService userManagementService;
 
-    public AuthViewController(UserRep userRepository, JWTCore jwtCore, UserManagementService userManagementService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+    public AuthViewController(UserRep userRepository, UserManagementService userManagementService) {
         this.userRepository = userRepository;
-        this.jwtCore = jwtCore;
-        this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
         this.userManagementService = userManagementService;
     }
 

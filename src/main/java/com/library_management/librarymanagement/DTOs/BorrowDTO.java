@@ -1,7 +1,5 @@
 package com.library_management.librarymanagement.DTOs;
 
-import com.library_management.librarymanagement.Entities.Book;
-import com.library_management.librarymanagement.Entities.User;
 
 import java.time.LocalDate;
 
