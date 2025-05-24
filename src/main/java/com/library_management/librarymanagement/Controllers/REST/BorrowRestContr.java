@@ -15,11 +15,11 @@ public class BorrowRestContr {
     private BorrowServ borrowServ;
 
     @PostMapping
-    public Long addAuthor(@RequestBody BorrowSaveDTO borrowSaveDTO){
+    public Long addBorrow(@RequestBody BorrowSaveDTO borrowSaveDTO){
         return borrowServ.addBorrow(borrowSaveDTO);
     }
 
-    @GetMapping
+    @GetMapping(path = "/admin")
     public List<BorrowDTO> getBorrows(){
         return borrowServ.getBorrows();
     }
@@ -29,7 +29,7 @@ public class BorrowRestContr {
         return borrowServ.getBorrowByID(id);
     }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/admin/{id}")
     public Long deleteBorrowById(@PathVariable(value = "id")Long id){
         return borrowServ.deleteBorrowByID(id);
     }

@@ -15,7 +15,7 @@ public class AuthorRestContr {
     @Autowired
     private AuthorServ authorServ;
 
-    @PostMapping
+    @PostMapping(path = "/admin")
     public String addAuthor(@RequestBody AuthorSaveDTO authorSaveDTO){
         return authorServ.addAuthor(authorSaveDTO);
     }
@@ -30,17 +30,17 @@ public class AuthorRestContr {
         return authorServ.getAuthorByID(id);
     }
 
-    @PutMapping
+    @PutMapping(path = "/admin")
     public String updateAuthor(@RequestBody AuthorUpdateDTO authorUpdateDTO){
         return authorServ.updateAuthor(authorUpdateDTO);
     }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/admin/{id}")
     public Long deleteAuthorById(@PathVariable(value = "id")Long id){
         return authorServ.deleteAuthorById(id);
     }
 
-    @DeleteMapping(path = "/{name}")
+    @DeleteMapping(path = "/admin/{name}")
     public String deleteAuthorByName(@PathVariable(value = "name")String name){
         return authorServ.deleteAuthorByName(name);
     }
