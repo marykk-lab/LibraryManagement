@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Author</title>
+</head>
+<body>
+<h1>Add Author</h1>
+<form th:action="@{/author/admin/add}" th:object="${authorSaveDTO}" method="post">
+    <div th:if="${message}" style="color:green;">[[${message}]]</div>
+
+    <label for="name">Name:</label>
+        <input type="text" th:field="*{name}" id="name" required>
+    </div>
+
+    <button type="submit">Create Author</button>
+</form>
+<a th:href="@{/admin/dashboard}">Back to Dashboard</a>
+</body>
+</html>

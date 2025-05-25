@@ -1,25 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Sign In</title>
+    <title>Login</title>
 </head>
 <body>
-<h2>Sign In</h2>
-<form th:action="@{/auth/signin}" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required />
-    <br />
-
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required />
-    <br />
-
+<h1>Вход</h1>
+<form th:action="@{/auth/signin}" th:object="${signInDTO}" method="post">
+    <div th:if="${error}" style="color: red;">[[${error}]]</div>
+    <div th:if="${success}" style="color: green;">[[${success}]]</div>
+    <div>
+        <label>Username:</label>
+        <input type="text" th:field="*{username}" required/>
+    </div>
+    <div>
+        <label>Password:</label>
+        <input type="password" th:field="*{password}" required/>
+    </div>
     <button type="submit">Login</button>
 </form>
-
-<p>You dont have an account yet?</p>
-<a th:href="@{/signup}">Sign Up</a><br>
-
-<p th:if="${param.error}" style="color:red;">Invalid username or password.</p>
+<p>You dont have an account yet? <a th:href="@{/auth/signup}">Log Up</a></p>
 </body>
 </html>

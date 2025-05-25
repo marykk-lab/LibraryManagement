@@ -60,7 +60,8 @@ public class BookViewController {
     }
     
     @GetMapping(path = "/admin/add")
-    public String addBookPage() {
+    public String addBookPage(Model model) {
+        model.addAttribute("bookSaveDTO", new BookSaveDTO());
         return "book_add";
     }
        

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-@RequestMapping("author")
+@RequestMapping("/author")
 public class AuthorViewController {
     @Autowired
     private AuthorServ authorServ;
@@ -29,7 +29,8 @@ public class AuthorViewController {
     }
 
     @GetMapping(path = "/admin/add")
-    public String addAuthorPage() {
+    public String addAuthorPage(Model model) {
+        model.addAttribute("authorSaveDTO", new AuthorSaveDTO());
         return "add_author";
     }
 

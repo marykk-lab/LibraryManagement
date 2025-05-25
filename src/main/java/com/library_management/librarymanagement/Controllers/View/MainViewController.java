@@ -20,16 +20,6 @@ public class MainViewController {
         return "profile";
     }
 
-    @GetMapping(path = "/signup")
-    public String signup(){
-        return "register";
-    }
-
-    @GetMapping(path = "/signin")
-    public String signin(){
-        return "login";
-    }
-
     @GetMapping(path = "/admin/dashboard")
     public String adminDashboard(){
         return "admin_dashboard";

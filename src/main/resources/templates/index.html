@@ -10,26 +10,27 @@
 
 <header>
     <h1>📚 Library Management System</h1>
+
     <nav>
-        <a th:href="@{/}">Library</a>
-        <a th:href="@{/signin}">Sign In</a>
-        <a th:href="@{/signup}">Sign Up</a>
-        <a th:href="@{/profile}">Profile</a>
+        <a th:href="@{/}">Home</a>
+        <div sec:authorize="isAnonymous()">
+            <a th:href="@{/auth/signin}">Sign In</a>
+            <a th:href="@{/auth/signup}">Sign Up</a>
+            <a th:href="@{/author/admin/add}">s</a>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <a th:href="@{/profile}">Profile</a>
+            <span>Hello, <strong sec:authentication="name"></strong>!</span>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
     </nav>
 
-    <div sec:authorize="isAuthenticated()">
-        <p>Hello, <span sec:authentication="name"></span>!</p>
-        <a th:href="@{/profile}">Profile</a>
-        <form th:action="@{/logout}" method="post">
-            <button type="submit">Logout</button>
-        </form>
-    </div>
+    <a th:href="@{/author/admin/add}">s</a>
 
-    <div sec:authorize="isAnonymous()">
-        <a th:href="@{/signin}">Login</a> |
-        <a th:href="@{/signup}">Sign Up</a>
-    </div>
 </header>
+
 
 <footer>
     <p>&copy; 2025 Library System</p>
