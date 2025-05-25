@@ -4,12 +4,14 @@ import com.library_management.librarymanagement.DTOs.AuthorDTO;
 import com.library_management.librarymanagement.DTOs.AuthorSaveDTO;
 import com.library_management.librarymanagement.DTOs.AuthorUpdateDTO;
 import com.library_management.librarymanagement.Entities.Author;
+import com.library_management.librarymanagement.Entities.Book;
 import com.library_management.librarymanagement.Repositories.AuthorRep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class AuthorServ{
@@ -76,4 +78,12 @@ public class AuthorServ{
         throw new IllegalArgumentException("This name doesnt exist!");
     }
 
+
+    public Set<Book> getBooksById(Long ID){
+        if (authorRep.existsById(ID)){
+            Author author = authorRep.getReferenceById(ID);
+            return author.getBooks();
+        }
+        throw new IllegalArgumentException("This ID doesnt exist!");
+    }
 }

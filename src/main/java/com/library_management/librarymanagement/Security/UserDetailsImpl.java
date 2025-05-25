@@ -2,22 +2,26 @@ package com.library_management.librarymanagement.Security;
 
 import com.library_management.librarymanagement.Entities.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 
 public class UserDetailsImpl implements UserDetails {
     private Long id;
     private String username;
     private String email;
     private String password;
+    private String role;
 
 
-    public UserDetailsImpl(Long id, String username, String email, String password) {
+    public UserDetailsImpl(Long id, String username, String email, String password, String role) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public static UserDetailsImpl build(User user) {
@@ -26,7 +30,8 @@ public class UserDetailsImpl implements UserDetails {
                 user.getUserID(),
                 user.getUsername(),
                 user.getEmail(),
-                user.getPassword()
+                user.getPassword(),
+                user.getRole()
         );
     }
 
@@ -41,7 +46,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
     }
 
     @Override

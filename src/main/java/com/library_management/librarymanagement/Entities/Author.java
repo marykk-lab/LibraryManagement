@@ -24,6 +24,14 @@ public class Author {
         this.authorID = authorID;
     }
 
+    public boolean addBook(Book book){
+        if (book != null){
+            books.add(book);
+            return true;
+        }
+        return false;
+    }
+
     public Author(String name) {
         this.name = name;
     }
@@ -45,6 +53,14 @@ public class Author {
 
     public void setAuthorID(Long authorID) {
         this.authorID = authorID;
+    }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 
     @Override

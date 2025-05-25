@@ -3,11 +3,14 @@ package com.library_management.librarymanagement.Controllers.REST;
 import com.library_management.librarymanagement.DTOs.AuthorDTO;
 import com.library_management.librarymanagement.DTOs.AuthorSaveDTO;
 import com.library_management.librarymanagement.DTOs.AuthorUpdateDTO;
+import com.library_management.librarymanagement.Entities.Book;
 import com.library_management.librarymanagement.Service.AuthorServ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/author")
@@ -26,7 +29,7 @@ public class AuthorRestContr {
     }
 
     @GetMapping(path = "/{id}")
-    public AuthorDTO getAuthorByID(@PathVariable(value = "id")Long id){
+    public AuthorDTO getAuthorByID(@PathVariable Long id){
         return authorServ.getAuthorByID(id);
     }
 
@@ -36,12 +39,17 @@ public class AuthorRestContr {
     }
 
     @DeleteMapping(path = "/admin/{id}")
-    public Long deleteAuthorById(@PathVariable(value = "id")Long id){
+    public Long deleteAuthorById(@PathVariable Long id){
         return authorServ.deleteAuthorById(id);
     }
 
     @DeleteMapping(path = "/admin/{name}")
-    public String deleteAuthorByName(@PathVariable(value = "name")String name){
+    public String deleteAuthorByName(@PathVariable String name){
         return authorServ.deleteAuthorByName(name);
+    }
+
+    @GetMapping(path = "/admin/{id}")
+    public Set<Book> getBookById(@PathVariable Long id){
+        return authorServ.getBooksById(id);
     }
 }

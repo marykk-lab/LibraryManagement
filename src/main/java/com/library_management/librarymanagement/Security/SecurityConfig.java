@@ -60,8 +60,8 @@ public class SecurityConfig {
                         httpSecurityCorsConfigurer.configurationSource(request ->
                                 new CorsConfiguration().applyPermitDefaultValues()))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/signin", "/signup", "/auth/signin", "/auth/signup", "/auth/rest/**").permitAll()
-                        .requestMatchers("/api/book/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/", "/signin", "/signup", "/auth/signin", "/auth/signup", "/auth/rest/signup", "/auth/rest/signin").permitAll()
+                        .requestMatchers("/api/book/admin/**", "/api/author/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 ).sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .logout(logout -> logout

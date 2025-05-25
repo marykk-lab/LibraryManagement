@@ -1,11 +1,13 @@
 package com.library_management.librarymanagement.Controllers.REST;
 
 import com.library_management.librarymanagement.DTOs.*;
+import com.library_management.librarymanagement.Entities.Borrow;
 import com.library_management.librarymanagement.Service.BookServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/book")
@@ -24,7 +26,7 @@ public class BookRestContr {
     }
 
     @GetMapping(path = "/{id}")
-    public BookDTO getBookByID(@PathVariable(value = "id")Long id){
+    public BookDTO getBookByID(@PathVariable Long id){
         return bookServ.getBookByID(id);
     }
 
@@ -34,12 +36,17 @@ public class BookRestContr {
     }
 
     @DeleteMapping(path = "/admin/{id}")
-    public Long deleteBookById(@PathVariable(value = "id")Long id){
+    public Long deleteBookById(@PathVariable Long id){
         return bookServ.deleteBookById(id);
     }
 
-    @DeleteMapping(path = "/admin/{name}")
-    public String deleteBookByTitle(@PathVariable(value = "title")String title){
+    @DeleteMapping(path = "/admin/{title}")
+    public String deleteBookByTitle(@PathVariable String title){
         return bookServ.deleteBookByTitle(title);
+    }
+
+    @GetMapping(path = "/admin/{id}")
+    public Set<Borrow> getBorrowsById(@PathVariable Long id){
+        return bookServ.getBorrowsById(id);
     }
 }

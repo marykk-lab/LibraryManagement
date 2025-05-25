@@ -25,12 +25,12 @@ public class BorrowRestContr {
     }
 
     @GetMapping(path = "/{id}")
-    public BorrowDTO getBorrowByID(@PathVariable(value = "id")Long id){
+    public BorrowDTO getBorrowByID(@PathVariable Long id){
         return borrowServ.getBorrowByID(id);
     }
 
     @DeleteMapping(path = "/admin/{id}")
-    public Long deleteBorrowById(@PathVariable(value = "id")Long id){
+    public Long deleteBorrowById(@PathVariable Long id){
         return borrowServ.deleteBorrowByID(id);
     }
 }

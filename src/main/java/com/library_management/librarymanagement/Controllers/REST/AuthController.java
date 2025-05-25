@@ -29,9 +29,9 @@ public class AuthController {
 
 
     @PostMapping("/signin")
-    public ResponseEntity<String> signIn(@RequestBody SignInDTO signInDTO) {
-        userManagementService.signin(signInDTO);
-        return ResponseEntity.ok("User logged in.");
+    public ResponseEntity<SignInDTO> signIn(@RequestBody SignInDTO signInDTO) {
+        SignInDTO signedInUser = userManagementService.signin(signInDTO);
+        return ResponseEntity.ok(signedInUser);
     }
 
     @GetMapping("/admin")
