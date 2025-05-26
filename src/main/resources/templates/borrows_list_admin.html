@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>All Borrows (Admin)</title>
+</head>
+<body>
+<h2>All Borrows</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Book</th>
+        <th>Borrow Date</th>
+        <th>Return Date</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="borrow : ${borrows}">
+        <td th:text="${borrow.borrowID}"></td>
+        <td th:text="${borrow.userID}"></td>
+        <td th:text="${borrow.bookID}"></td>
+        <td th:text="${borrow.borrowingDate}"></td>
+        <td th:text="${borrow.returnDate}"></td>
+        <td>
+            <form th:action="@{/borrow/admin/delete/{id}(id=${borrow.borrowID})}" method="post" style="display:inline;">
+                <button type="submit" onclick="return confirm('Are you sure?');">Delete</button>
+            </form>
+            <a th:href="@{/borrow/admin/update/{id}(id=${borrow.borrowID})}">Update</a>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(borrows)}">
+        <td colspan="3" style="text-align:center;color:#bbb;">No borrows found.</td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/admin/dashboard}">Back to Dashboard</a>
+
+</body>
+</html>

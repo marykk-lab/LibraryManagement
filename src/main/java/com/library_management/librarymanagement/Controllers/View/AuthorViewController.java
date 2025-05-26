@@ -41,6 +41,13 @@ public class AuthorViewController {
         return "authors_list";
     }
 
+    @GetMapping("/admin")
+    public String getAuthorsAdmin(Model model){
+        List<AuthorDTO> authors =  authorServ.getAuthors();
+        model.addAttribute("authors", authors);
+        return "authors_list_admin";
+    }
+
     @PostMapping(path = "/admin/delete/{id}")
     public String removeAuthor(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         authorServ.deleteAuthorById(id);
@@ -52,7 +59,7 @@ public class AuthorViewController {
     public String authorUpdateForm(@PathVariable Long id, Model model) {
         AuthorDTO authorDTO = authorServ.getAuthorByID(id);
         model.addAttribute("author", authorDTO);
-        return "author_update";
+        return "update_author";
     }
     @PostMapping(path = "/admin/update/{id}")
     public String updateAuthor(@ModelAttribute AuthorUpdateDTO authorUpdateDTO, @PathVariable Long id, RedirectAttributes redirectAttributes) {

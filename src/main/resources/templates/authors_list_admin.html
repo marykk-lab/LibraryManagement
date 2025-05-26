@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Authors List (Admin)</title>
+</head>
+<body>
+<h2>Authors - Admin Panel</h2>
+<div th:if="${#lists.isEmpty(authors)}">
+    <p>No authors found.</p>
+</div>
+<table th:if="${!#lists.isEmpty(authors)}">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="a : ${authors}">
+        <td th:text="${a.authorID}">ID</td>
+        <td th:text="${a.name}">Author Name</td>
+        <td>
+            <a th:href="@{/author/admin/update/{id}(id=${a.authorID})}">Update</a>
+            |
+            <form th:action="@{/author/admin/delete/{id}(id=${a.authorID})}" method="post" th:object="${a}" style="display:inline;">
+                <button type="submit" onclick="return confirm('Are you sure?');">Delete</button>
+            </form>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(authors)}">
+        <td colspan="3" style="text-align:center;color:#bbb;">No authors found.</td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<a th:href="@{/admin/dashboard}">Back to Dashboard</a>
+</body>
+</html>

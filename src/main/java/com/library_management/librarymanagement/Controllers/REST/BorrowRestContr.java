@@ -33,4 +33,9 @@ public class BorrowRestContr {
     public Long deleteBorrowById(@PathVariable Long id){
         return borrowServ.deleteBorrowByID(id);
     }
+
+    @PutMapping(path = "/admin")
+    public String updateBorrow(@RequestBody BorrowUpdateDTO borrowUpdateDTO){
+        return borrowServ.updateBorrow(borrowUpdateDTO);
+    }
 }

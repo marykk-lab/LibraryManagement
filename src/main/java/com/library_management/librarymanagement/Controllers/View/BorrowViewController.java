@@ -2,6 +2,11 @@ package com.library_management.librarymanagement.Controllers.View;
 
 import java.util.List;
 
+import com.library_management.librarymanagement.DTOs.BorrowUpdateDTO;
+import com.library_management.librarymanagement.Entities.Borrow;
+import com.library_management.librarymanagement.Service.BookServ;
+import com.library_management.librarymanagement.Service.UserManagementService;
+import com.library_management.librarymanagement.Service.UserServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,23 +27,17 @@ public class BorrowViewController {
     @Autowired
     private BorrowServ borrowServ;
 
-    @PostMapping(path = "/admin/add")
+    @Autowired
+    private BookServ bookServ;
+
+    @Autowired
+    private UserManagementService userManagementService;
+
+    @PostMapping(path = "/add")
     public String addBorrow(@ModelAttribute BorrowSaveDTO borrowSaveDTO, RedirectAttributes redirectAttributes){
         borrowServ.addBorrow(borrowSaveDTO);
         redirectAttributes.addFlashAttribute("message", "Borrow was succesfully created.");
         return "redirect:/admin/dashboard";
-    }
-
-    @GetMapping(path = "/admin/add")
-    public String addBorrowPage() {
-        return "add_borrow";
-    }
-
-    @GetMapping
-    public String getBooks(Model model){
-        List<BorrowDTO> borrows =  borrowServ.getBorrows();
-        model.addAttribute("borrows", borrows);
-        return "borrows_list";
     }
 
     @PostMapping(path = "/admin/delete/{id}")
@@ -48,10 +47,35 @@ public class BorrowViewController {
         return "redirect:/admin/dashboard";
     }
 
+    @PostMapping(path = "/admin/update/{id}")
+    public String updateBorrow(@ModelAttribute BorrowUpdateDTO borrowUpdateDTO, @PathVariable Long id, RedirectAttributes redirectAttributes) {
+        borrowServ.updateBorrow(borrowUpdateDTO);
+        redirectAttributes.addFlashAttribute("message", "Borrow was succesfully updated.");
+        return "redirect:/admin/dashboard";
+    }
+
+    @GetMapping(path = "/admin/add")
+    public String addBorrowFormAdmin(Model model) {
+        model.addAttribute("borrow", new BorrowSaveDTO());
+        model.addAttribute("users", userManagementService.getAllUsers());
+        model.addAttribute("books", bookServ.getBooks());
+        return "add_borrow";
+    }
+
+
+    @GetMapping(path = "/admin")
+    public String getBorrowsAdmin(Model model){
+        List<BorrowDTO> borrows =  borrowServ.getBorrows();
+        model.addAttribute("borrows", borrows);
+        return "borrows_list_admin";
+    }
+
     @GetMapping(path = "/admin/update/{id}")
-    public String borrowUpdateForm(@PathVariable Long id, Model model) {
+    public String updateBorrowForm(@PathVariable Long id, Model model) {
         BorrowDTO borrowDTO = borrowServ.getBorrowByID(id);
         model.addAttribute("borrow", borrowDTO);
-        return "borrow_update";
+        model.addAttribute("users", userManagementService.getAllUsers());
+        model.addAttribute("books", bookServ.getBooks());
+        return "update_borrow";
     }
 }

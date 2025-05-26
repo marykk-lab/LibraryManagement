@@ -1,7 +1,9 @@
 package com.library_management.librarymanagement.Service;
 
+import com.library_management.librarymanagement.DTOs.BookUpdateDTO;
 import com.library_management.librarymanagement.DTOs.BorrowDTO;
 import com.library_management.librarymanagement.DTOs.BorrowSaveDTO;
+import com.library_management.librarymanagement.DTOs.BorrowUpdateDTO;
 import com.library_management.librarymanagement.Entities.Book;
 import com.library_management.librarymanagement.Entities.Borrow;
 import com.library_management.librarymanagement.Entities.User;
@@ -65,5 +67,19 @@ public class BorrowServ {
             return borrowDTO;
         }
         throw new IllegalArgumentException("This ID doesnt exist!");
+    }
+
+    public String updateBorrow(BorrowUpdateDTO borrowUpdateDTO){
+        if(borrowRep.existsById(borrowUpdateDTO.getBorrowID())){
+            Borrow borrow = borrowRep.getReferenceById(borrowUpdateDTO.getBorrowID());
+            borrow.setBook(bookRep.getReferenceById(borrowUpdateDTO.getBookID()));
+            borrow.setUser(userRep.getReferenceById(borrowUpdateDTO.getUserID()));
+            borrow.setReturnDate(borrowUpdateDTO.getReturnDate());
+            borrow.setBorrowingDate(borrowUpdateDTO.getBorrowingDate());
+            borrowRep.save(borrow);
+            return "Borrow was updated!";
+        }
+        throw new IllegalArgumentException("This ID doesnt exist!");
+
     }
 }

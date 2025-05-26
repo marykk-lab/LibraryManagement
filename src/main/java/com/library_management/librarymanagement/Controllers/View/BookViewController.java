@@ -68,7 +68,7 @@ public class BookViewController {
 
 
     @GetMapping(path = "/admin/update/{id}")
-    public String bookUpdateForm(@PathVariable Long id, Model model) {
+    public String updateBookForm(@PathVariable Long id, Model model) {
         BookDTO bookDTO = bookServ.getBookByID(id);
         model.addAttribute("book", bookDTO);
         model.addAttribute("authors", authorServ.getAuthors());

@@ -1,5 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update Book</title>
+</head>
+<body>
+<h2>Update Book</h2>
 <form th:action="@{/book/admin/update/{id}(id=${book.bookID})}" th:object="${book}" method="post">
-    <!-- This hidden input ensures bookID is sent in POST -->
     <input type="hidden" th:field="*{bookID}" />
     <label for="title">Title</label>
     <input type="text" id="title" th:field="*{title}" required />
@@ -16,3 +22,8 @@
 
     <button type="submit">Update</button>
 </form>
+<a th:href="@{/admin/dashboard}">Back to Dashboard</a>
+
+</body>
+</html>
+

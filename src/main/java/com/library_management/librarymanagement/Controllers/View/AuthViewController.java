@@ -50,13 +50,4 @@ public class AuthViewController {
         return "login";
     }
 
-    //@PostMapping("/signin")
-    //public String signIn(@ModelAttribute SignInDTO signInDTO) {
-    //    SignInDTO signin= userManagementService.signin(signInDTO);
-    //    if (signin.getStatusCode()== HttpStatus.OK.value()){
-    //        return "redirect:/";
-    //    }
-    //    return "redirect:/auth/signin";
-    //}
-
 }

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update Book</title>
+</head>
+<body>
+<h2>Update Author</h2>
+<form th:action="@{/author/admin/update/{id}(id=${author.authorID})}" th:object="${author}" method="post">
+    <input type="hidden" th:field="*{authorID}" />
+    <label for="title">New name</label>
+    <input type="text" id="title" th:field="*{name}" required />
+
+    <button type="submit">Update</button>
+</form>
+<a th:href="@{/admin/dashboard}">Back to Dashboard</a>
+</body>
+</html>
+
