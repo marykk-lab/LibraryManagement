@@ -1,8 +1,8 @@
 package com.library_management.librarymanagement.Service;
 
-import com.library_management.librarymanagement.DTOs.SignInDTO;
-import com.library_management.librarymanagement.DTOs.SignUpDTO;
-import com.library_management.librarymanagement.DTOs.UserUpdateDTO;
+import com.library_management.librarymanagement.DTOs.User.SignInDTO;
+import com.library_management.librarymanagement.DTOs.User.SignUpDTO;
+import com.library_management.librarymanagement.DTOs.User.UserUpdateDTO;
 import com.library_management.librarymanagement.Entities.User;
 import com.library_management.librarymanagement.Repositories.UserRep;
 import org.springframework.http.HttpStatus;

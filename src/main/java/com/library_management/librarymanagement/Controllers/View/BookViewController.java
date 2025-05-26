@@ -2,7 +2,7 @@ package com.library_management.librarymanagement.Controllers.View;
 
 import java.util.List;
 
-import com.library_management.librarymanagement.DTOs.AuthorDTO;
+import com.library_management.librarymanagement.DTOs.Author.AuthorDTO;
 import com.library_management.librarymanagement.Service.AuthorServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,9 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.library_management.librarymanagement.DTOs.BookDTO;
-import com.library_management.librarymanagement.DTOs.BookSaveDTO;
-import com.library_management.librarymanagement.DTOs.BookUpdateDTO;
+import com.library_management.librarymanagement.DTOs.Book.BookDTO;
+import com.library_management.librarymanagement.DTOs.Book.BookSaveDTO;
+import com.library_management.librarymanagement.DTOs.Book.BookUpdateDTO;
 import com.library_management.librarymanagement.Service.BookServ;
 
 import org.springframework.web.bind.annotation.ModelAttribute;

@@ -1,4 +1,4 @@
-package com.library_management.librarymanagement.DTOs;
+package com.library_management.librarymanagement.DTOs.User;
 
 import com.library_management.librarymanagement.Entities.User;
 

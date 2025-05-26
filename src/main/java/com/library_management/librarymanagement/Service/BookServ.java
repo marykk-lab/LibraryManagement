@@ -1,8 +1,8 @@
 package com.library_management.librarymanagement.Service;
 
-import com.library_management.librarymanagement.DTOs.BookDTO;
-import com.library_management.librarymanagement.DTOs.BookSaveDTO;
-import com.library_management.librarymanagement.DTOs.BookUpdateDTO;
+import com.library_management.librarymanagement.DTOs.Book.BookDTO;
+import com.library_management.librarymanagement.DTOs.Book.BookSaveDTO;
+import com.library_management.librarymanagement.DTOs.Book.BookUpdateDTO;
 import com.library_management.librarymanagement.Entities.Author;
 import com.library_management.librarymanagement.Entities.Book;
 import com.library_management.librarymanagement.Entities.Borrow;

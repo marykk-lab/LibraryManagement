@@ -1,4 +1,4 @@
-package com.library_management.librarymanagement.DTOs;
+package com.library_management.librarymanagement.DTOs.Borrow;
 
 import java.time.LocalDate;
 

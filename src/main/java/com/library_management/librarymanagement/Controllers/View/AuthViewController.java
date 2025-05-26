@@ -1,25 +1,17 @@
 package com.library_management.librarymanagement.Controllers.View;
 
-import com.library_management.librarymanagement.DTOs.AuthorUpdateDTO;
-import com.library_management.librarymanagement.DTOs.SignInDTO;
-import com.library_management.librarymanagement.DTOs.SignUpDTO;
-import com.library_management.librarymanagement.DTOs.UserUpdateDTO;
+import com.library_management.librarymanagement.DTOs.User.SignInDTO;
+import com.library_management.librarymanagement.DTOs.User.SignUpDTO;
+import com.library_management.librarymanagement.DTOs.User.UserUpdateDTO;
 import com.library_management.librarymanagement.Entities.User;
 import com.library_management.librarymanagement.Repositories.UserRep;
 import com.library_management.librarymanagement.Service.UserManagementService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/auth")

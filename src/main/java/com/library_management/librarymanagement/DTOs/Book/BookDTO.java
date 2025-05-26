@@ -1,22 +1,17 @@
-package com.library_management.librarymanagement.DTOs;
+package com.library_management.librarymanagement.DTOs.Book;
 
-public class BookUpdateDTO {
+public class BookDTO {
     private Long bookID;
     private String title;
     private Long authorID;
 
-    public BookUpdateDTO(Long bookID, String title, Long authorID) {
+    public BookDTO(Long bookID, String title, Long authorID) {
         this.bookID = bookID;
         this.title = title;
         this.authorID = authorID;
     }
 
-    public BookUpdateDTO(String title, Long authorID) {
-        this.title = title;
-        this.authorID = authorID;
-    }
-
-    public BookUpdateDTO() {
+    public BookDTO() {
     }
 
     public Long getBookID() {
@@ -43,10 +38,9 @@ public class BookUpdateDTO {
         this.authorID = authorID;
     }
 
-
     @Override
     public String toString() {
-        return "BookUpdateDTO{" +
+        return "BookDTO{" +
                 "bookID=" + bookID +
                 ", title='" + title + '\'' +
                 ", authorID=" + authorID +

@@ -2,11 +2,9 @@ package com.library_management.librarymanagement.Controllers.View;
 
 import java.util.List;
 
-import com.library_management.librarymanagement.DTOs.BorrowUpdateDTO;
-import com.library_management.librarymanagement.Entities.Borrow;
+import com.library_management.librarymanagement.DTOs.Borrow.BorrowUpdateDTO;
 import com.library_management.librarymanagement.Service.BookServ;
 import com.library_management.librarymanagement.Service.UserManagementService;
-import com.library_management.librarymanagement.Service.UserServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.library_management.librarymanagement.DTOs.BorrowDTO;
-import com.library_management.librarymanagement.DTOs.BorrowSaveDTO;
+import com.library_management.librarymanagement.DTOs.Borrow.BorrowDTO;
+import com.library_management.librarymanagement.DTOs.Borrow.BorrowSaveDTO;
 import com.library_management.librarymanagement.Service.BorrowServ;
 
 @Controller

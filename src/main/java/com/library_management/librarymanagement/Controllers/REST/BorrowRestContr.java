@@ -1,9 +1,9 @@
 package com.library_management.librarymanagement.Controllers.REST;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.library_management.librarymanagement.DTOs.BorrowDTO;
-import com.library_management.librarymanagement.DTOs.BorrowSaveDTO;
-import com.library_management.librarymanagement.DTOs.BorrowUpdateDTO;
+import com.library_management.librarymanagement.DTOs.Borrow.BorrowDTO;
+import com.library_management.librarymanagement.DTOs.Borrow.BorrowSaveDTO;
+import com.library_management.librarymanagement.DTOs.Borrow.BorrowUpdateDTO;
 import com.library_management.librarymanagement.Service.BorrowServ;
 
 import java.util.List;

@@ -4,9 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.library_management.librarymanagement.DTOs.AuthorDTO;
-import com.library_management.librarymanagement.DTOs.AuthorSaveDTO;
-import com.library_management.librarymanagement.DTOs.AuthorUpdateDTO;
+import com.library_management.librarymanagement.DTOs.Author.AuthorDTO;
+import com.library_management.librarymanagement.DTOs.Author.AuthorSaveDTO;
+import com.library_management.librarymanagement.DTOs.Author.AuthorUpdateDTO;
 import com.library_management.librarymanagement.Service.AuthorServ;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;

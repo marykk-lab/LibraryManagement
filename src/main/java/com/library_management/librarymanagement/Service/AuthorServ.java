@@ -1,8 +1,8 @@
 package com.library_management.librarymanagement.Service;
 
-import com.library_management.librarymanagement.DTOs.AuthorDTO;
-import com.library_management.librarymanagement.DTOs.AuthorSaveDTO;
-import com.library_management.librarymanagement.DTOs.AuthorUpdateDTO;
+import com.library_management.librarymanagement.DTOs.Author.AuthorDTO;
+import com.library_management.librarymanagement.DTOs.Author.AuthorSaveDTO;
+import com.library_management.librarymanagement.DTOs.Author.AuthorUpdateDTO;
 import com.library_management.librarymanagement.Entities.Author;
 import com.library_management.librarymanagement.Entities.Book;
 import com.library_management.librarymanagement.Repositories.AuthorRep;
