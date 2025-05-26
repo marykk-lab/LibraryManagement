@@ -2,6 +2,7 @@ package com.library_management.librarymanagement.Controllers.REST;
 
 import com.library_management.librarymanagement.DTOs.SignInDTO;
 import com.library_management.librarymanagement.DTOs.SignUpDTO;
+import com.library_management.librarymanagement.DTOs.UserUpdateDTO;
 import com.library_management.librarymanagement.Entities.User;
 import com.library_management.librarymanagement.Service.UserManagementService;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +46,7 @@ public class AuthController {
     }
 
     @PutMapping("/admin/{userId}")
-    public ResponseEntity<Long> updateUser(@PathVariable Long userId, @RequestBody User user) {
+    public ResponseEntity<Long> updateUser(@PathVariable Long userId, @RequestBody UserUpdateDTO user) {
         return ResponseEntity.ok(userManagementService.updateUser(userId, user));
     }
 

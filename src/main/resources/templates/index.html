@@ -21,7 +21,7 @@
             <a th:href="@{/admin/dashboard}">Admin Dashboard</a>
         </div>
         <div sec:authorize="isAuthenticated()">
-            <a th:href="@{/profile}">Profile</a>
+            <a th:href="@{/auth/profile}">Profile</a>
             <span>Hello, <strong sec:authentication="name"></strong>!</span>
             <form th:action="@{/logout}" method="post" style="display:inline;">
                 <button type="submit">Logout</button>

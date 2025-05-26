@@ -12,14 +12,6 @@ public class MainViewController {
         return "index";
     }
 
-    @GetMapping(path = "/profile")
-    public String profile(Principal principal){
-        if (principal==null){
-            return null;
-        }
-        return "profile";
-    }
-
     @GetMapping(path = "/admin/dashboard")
     public String adminDashboard(){
         return "admin_dashboard";

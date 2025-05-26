@@ -2,6 +2,7 @@ package com.library_management.librarymanagement.Service;
 
 import com.library_management.librarymanagement.DTOs.SignInDTO;
 import com.library_management.librarymanagement.DTOs.SignUpDTO;
+import com.library_management.librarymanagement.DTOs.UserUpdateDTO;
 import com.library_management.librarymanagement.Entities.User;
 import com.library_management.librarymanagement.Repositories.UserRep;
 import org.springframework.http.HttpStatus;
@@ -99,7 +100,7 @@ public class UserManagementService {
         throw new IllegalArgumentException("User not found");
     }
 
-    public Long updateUser(Long id, User updatedUser) {
+    public Long updateUser(Long id, UserUpdateDTO updatedUser) {
         try {
             User existingUser = userRep.findById(id).orElseThrow();
             existingUser.setEmail(updatedUser.getEmail());

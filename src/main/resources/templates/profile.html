@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>Profile</title>
 </head>
 <body>
-    <h2>Profile</h2>
-
-
+<h2>My Profile</h2>
+<div th:if="${user != null}">
+    <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+    <p><strong>Role:</strong> <span th:text="${user.role}"></span></p>
+</div>
+<div th:if="${user == null}">
+    <p>User information not available.</p>
+</div>
+<a th:href="@{/}">Back</a>
 </body>
 </html>
