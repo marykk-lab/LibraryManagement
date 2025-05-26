@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Books List</title>
+</head>
+<body>
+<h2>Books List</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.title}">Title</td>
+        <td>
+                <span th:each="author : ${authors}"
+                      th:if="${author.authorID} == ${book.authorID}"
+                      th:text="${author.name}">
+                    AuthorName
+                </span>
+        </td>
+        <td>
+            <a th:href="@{/book/admin/update/{id}(id=${book.bookID})}">
+                <button type="button">Update</button>
+            </a>
+            <form th:action="@{/book/admin/delete/{id}(id=${book.bookID})}" method="post" class="inline"
+                  th:onsubmit="return confirm('Delete this book?')">
+                <button type="submit" class="delete">Delete</button>
+            </form>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(books)}">
+        <td colspan="3" style="text-align:center;color:#bbb;">No books found.</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

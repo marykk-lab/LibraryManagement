@@ -24,12 +24,8 @@ import org.springframework.web.cors.CorsConfiguration;
 public class SecurityConfig {
     @Autowired
     private UserServ userServ;
-    @Autowired
-    private TokenFilter tokenFilter;
-
-    public SecurityConfig(UserServ userServ, TokenFilter tokenFilter) {
+    public SecurityConfig(UserServ userServ) {
         this.userServ = userServ;
-        this.tokenFilter = tokenFilter;
     }
 
     public SecurityConfig() {
@@ -56,36 +52,34 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(httpSecurityCorsConfigurer ->
-                        httpSecurityCorsConfigurer.configurationSource(request ->
-                                new CorsConfiguration().applyPermitDefaultValues()))
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.applyPermitDefaultValues();
+                    config.setAllowCredentials(true);
+                    return config;
+                }))
+                .formLogin(form -> form
+                        .loginPage("/auth/signin")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/", true)
+                        .permitAll()
+                )
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/signin", "/signup", "/auth/signin", "/auth/signup", "/auth/rest/signup", "/auth/rest/signin").permitAll()
-                        //.requestMatchers("/api/book/admin/**", "/api/author/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/book/admin/**", "/api/author/admin/**").permitAll()
-                        .anyRequest().permitAll()
-                ).sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .requestMatchers("/", "/signin", "/signup", "/auth/**", "/auth/rest/signup", "/auth/rest/signin").permitAll()
+                        .requestMatchers("/api/book/admin/**", "/api/author/admin/**", "/api/borrow/admin", "/admin/**",
+                                            "/book/admin/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
+                )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/")
                         .permitAll()
                 )
                 .exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-                .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider())
-                .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                )
+                .authenticationProvider(authenticationProvider());
 
         return http.build();
     }
-
-    //@Bean
-    //public UserDetailsService userDetailsService() {
-    //    UserDetails user =
-    //            User.withDefaultPasswordEncoder()
-    //                    .username("user")
-    //                    .password("password")
-    //                    .roles("USER")
-    //                    .build();
-//
-    //    return new InMemoryUserDetailsManager(user);
-    //}
 }

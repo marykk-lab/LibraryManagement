@@ -4,15 +4,14 @@ import com.library_management.librarymanagement.DTOs.SignInDTO;
 import com.library_management.librarymanagement.DTOs.SignUpDTO;
 import com.library_management.librarymanagement.Entities.User;
 import com.library_management.librarymanagement.Repositories.UserRep;
-import com.library_management.librarymanagement.Security.JWTCore;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -21,14 +20,12 @@ public class UserManagementService {
 
     private AuthenticationManager authenticationManager;
     private PasswordEncoder passwordEncoder;
-    private JWTCore jwtCore;
     private UserServ userServ;
 
-    public UserManagementService(UserRep userRep, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JWTCore jwtCore, UserServ userServ) {
+    public UserManagementService(UserRep userRep, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, UserServ userServ) {
         this.userRep = userRep;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
-        this.jwtCore = jwtCore;
         this.userServ = userServ;
     }
 
@@ -56,23 +53,18 @@ public class UserManagementService {
     public SignInDTO signin(SignInDTO loginRequest) {
         SignInDTO resp = new SignInDTO();
         try {
-            authenticationManager.authenticate(
+            Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getUsername(),
                             loginRequest.getPassword()
                     )
             );
-
-            UserDetails user = userServ.loadUserByUsername(loginRequest.getUsername());
-            String jwt = jwtCore.generateToken(user);
-            String refreshToken = jwtCore.generateRefreshToken(new HashMap<>(), user);
-
-            resp.setStatusCode(HttpStatus.CONFLICT.value());
-            resp.setToken(jwt);
-            resp.setRefreshToken(refreshToken);
-            resp.setRole("USER");
-            resp.setExpirationTime("24Hrs");
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            resp.setStatusCode(HttpStatus.OK.value());
             resp.setMessage("Successfully logged in");
+
+            User user = userRep.findByUsername(loginRequest.getUsername()).orElseThrow();
+            resp.setRole(user.getRole());
         } catch (Exception e) {
             resp.setStatusCode(500);
             resp.setMessage(e.getMessage());

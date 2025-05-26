@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .action-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .action-card a {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-card a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>📘 Admin Dashboard</h1>
+    <p sec:authorize="hasRole('ADMIN')">Welcome, <strong sec:authentication="name"></strong> (Admin)</p>
+    <a th:href="@{/}">Return</a>
+</header>
+
+<section class="actions">
+    <div class="action-card">
+        <h2>Add New Book</h2>
+        <a th:href="@{/book/admin/add}">Go</a>
+    </div>
+    <div class="action-card">
+        <h2>Add New Author</h2>
+        <a th:href="@{/author/admin/add}">Go</a>
+    </div>
+    <div class="action-card">
+        <h2>View Authors</h2>
+        <a th:href="@{/author/}">Go</a>
+    </div>
+    <div class="action-card">
+        <h2>View Books</h2>
+        <a th:href="@{/book/admin}">Go</a>
+    </div>
+    <div class="action-card">
+        <h2>View all Borrows</h2>
+        <a th:href="@{/borrow/}">Go</a>
+    </div>
+</section>
+
+</body>
+</html>

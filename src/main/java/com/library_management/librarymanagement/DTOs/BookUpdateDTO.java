@@ -11,6 +11,11 @@ public class BookUpdateDTO {
         this.authorID = authorID;
     }
 
+    public BookUpdateDTO(String title, Long authorID) {
+        this.title = title;
+        this.authorID = authorID;
+    }
+
     public BookUpdateDTO() {
     }
 

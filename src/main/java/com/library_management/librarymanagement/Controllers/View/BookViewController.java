@@ -2,6 +2,8 @@ package com.library_management.librarymanagement.Controllers.View;
 
 import java.util.List;
 
+import com.library_management.librarymanagement.DTOs.AuthorDTO;
+import com.library_management.librarymanagement.Service.AuthorServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class BookViewController {
     @Autowired
     private BookServ bookServ;
+    @Autowired
+    private AuthorServ authorServ;
 
     @PostMapping(path = "/admin/add")
     public String addBook(@ModelAttribute BookSaveDTO bookSaveDTO, RedirectAttributes redirectAttributes) {
@@ -42,7 +46,7 @@ public class BookViewController {
     public String updateBook(@ModelAttribute BookUpdateDTO bookUpdateDTO, @PathVariable Long id, RedirectAttributes redirectAttributes) {
         bookServ.updateBook(bookUpdateDTO);
         redirectAttributes.addFlashAttribute("message", "Book was succesfully updated");
-        return "redirect:/admin/dashboard";
+        return "redirect:/book/admin";
     }
     
     @GetMapping()
@@ -52,17 +56,30 @@ public class BookViewController {
         return "books_list";
     }
 
+
+    @GetMapping(path = "/admin")
+    public String getBooksAdmin(Model model) {
+        List<BookDTO> books = bookServ.getBooks();
+        model.addAttribute("books", books);
+        List<AuthorDTO> authors = authorServ.getAuthors();
+        model.addAttribute("authors", authors);
+        return "books_list_admin";
+    }
+
+
     @GetMapping(path = "/admin/update/{id}")
     public String bookUpdateForm(@PathVariable Long id, Model model) {
         BookDTO bookDTO = bookServ.getBookByID(id);
         model.addAttribute("book", bookDTO);
+        model.addAttribute("authors", authorServ.getAuthors());
         return "book_update";
     }
     
     @GetMapping(path = "/admin/add")
-    public String addBookPage(Model model) {
+    public String addBookForm(Model model) {
         model.addAttribute("bookSaveDTO", new BookSaveDTO());
-        return "book_add";
+        model.addAttribute("authors", authorServ.getAuthors());
+        return "add_book";
     }
        
 }

@@ -1,0 +1,18 @@
+<form th:action="@{/book/admin/update/{id}(id=${book.bookID})}" th:object="${book}" method="post">
+    <!-- This hidden input ensures bookID is sent in POST -->
+    <input type="hidden" th:field="*{bookID}" />
+    <label for="title">Title</label>
+    <input type="text" id="title" th:field="*{title}" required />
+
+    <label for="authorID">Author</label>
+    <select id="authorID" name="authorID" required>
+        <option value="" disabled>Select Author</option>
+        <option th:each="author : ${authors}"
+                th:value="${author.authorID}"
+                th:text="${author.name}"
+                th:selected="${author.authorID == book.authorID}">
+        </option>
+    </select>
+
+    <button type="submit">Update</button>
+</form>

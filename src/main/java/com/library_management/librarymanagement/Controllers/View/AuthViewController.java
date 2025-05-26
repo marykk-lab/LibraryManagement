@@ -6,6 +6,7 @@ import com.library_management.librarymanagement.Repositories.UserRep;
 import com.library_management.librarymanagement.Service.UserManagementService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,13 +50,13 @@ public class AuthViewController {
         return "login";
     }
 
-    @PostMapping("/signin")
-    public String signIn(@ModelAttribute SignInDTO signInDTO) {
-        SignInDTO signin= userManagementService.signin(signInDTO);
-        if (signin.getRefreshToken()!=null){
-            return "redirect:/";
-        }
-        return "redirect:/auth/signin";
-    }
+    //@PostMapping("/signin")
+    //public String signIn(@ModelAttribute SignInDTO signInDTO) {
+    //    SignInDTO signin= userManagementService.signin(signInDTO);
+    //    if (signin.getStatusCode()== HttpStatus.OK.value()){
+    //        return "redirect:/";
+    //    }
+    //    return "redirect:/auth/signin";
+    //}
 
 }
