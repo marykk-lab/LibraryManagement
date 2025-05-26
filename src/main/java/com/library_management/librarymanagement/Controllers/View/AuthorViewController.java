@@ -50,8 +50,12 @@ public class AuthorViewController {
 
     @PostMapping(path = "/admin/delete/{id}")
     public String removeAuthor(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        authorServ.deleteAuthorById(id);
-        redirectAttributes.addFlashAttribute("message", "Author deleted succesfully");
+        try{
+            authorServ.deleteAuthorById(id);
+            redirectAttributes.addFlashAttribute("message", "Author deleted succesfully");
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("error", "Failed to delete author: " + e.getMessage());
+        }
         return "redirect:/admin/dashboard";
     }
 

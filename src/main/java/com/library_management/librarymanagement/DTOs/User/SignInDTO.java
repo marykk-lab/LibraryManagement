@@ -9,20 +9,16 @@ public class SignInDTO {
     private int statusCode;
     private String error;
     private String message;
-    private String refreshToken;
-    private String expirationTime;
     private String role;
     private User user;
 
-    public SignInDTO(String username, String password, String token, int statusCode, String error, String message, String refreshToken, String expirationTime, String role) {
+    public SignInDTO(String username, String password, String token, int statusCode, String error, String message, String role) {
         this.username = username;
         this.password = password;
         this.token = token;
         this.statusCode = statusCode;
         this.error = error;
         this.message = message;
-        this.refreshToken = refreshToken;
-        this.expirationTime = expirationTime;
         this.role = role;
     }
 
@@ -82,21 +78,6 @@ public class SignInDTO {
         this.message = message;
     }
 
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
-
-    public String getExpirationTime() {
-        return expirationTime;
-    }
-
-    public void setExpirationTime(String expirationTime) {
-        this.expirationTime = expirationTime;
-    }
 
     public String getRole() {
         return role;
@@ -123,8 +104,6 @@ public class SignInDTO {
                 ", statusCode=" + statusCode +
                 ", error='" + error + '\'' +
                 ", message='" + message + '\'' +
-                ", refreshToken='" + refreshToken + '\'' +
-                ", expirationTime='" + expirationTime + '\'' +
                 ", role='" + role + '\'' +
                 ", user=" + user +
                 '}';

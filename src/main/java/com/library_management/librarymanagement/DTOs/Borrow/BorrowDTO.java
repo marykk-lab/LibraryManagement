@@ -10,13 +10,17 @@ public class BorrowDTO {
     private LocalDate returnDate;
     private Long bookID;
     private Long userID;
+    private String bookTitle;
+    private String username;
 
-    public BorrowDTO(Long borrowID, LocalDate borrowingDate, LocalDate returnDate, Long bookID, Long userID) {
+    public BorrowDTO(Long borrowID, LocalDate borrowingDate, LocalDate returnDate, Long bookID, Long userID, String bookTitle, String username) {
         this.borrowID = borrowID;
         this.borrowingDate = borrowingDate;
         this.returnDate = returnDate;
         this.bookID = bookID;
         this.userID = userID;
+        this.bookTitle = bookTitle;
+        this.username = username;
     }
 
     public BorrowDTO() {
@@ -60,6 +64,22 @@ public class BorrowDTO {
 
     public void setUserID(Long userID) {
         this.userID = userID;
+    }
+
+    public String getBookTitle() {
+        return bookTitle;
+    }
+
+    public void setBookTitle(String bookTitle) {
+        this.bookTitle = bookTitle;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override

@@ -9,6 +9,7 @@
     <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
     <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
     <p><strong>Role:</strong> <span th:text="${user.role}"></span></p>
+    <a th:href="@{/auth/profile/update}" class="btn btn-primary">Edit Profile</a>
 </div>
 <div th:if="${user == null}">
     <p>User information not available.</p>

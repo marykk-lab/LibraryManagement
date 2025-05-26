@@ -19,8 +19,8 @@
     <tbody>
     <tr th:each="borrow : ${borrows}">
         <td th:text="${borrow.borrowID}"></td>
-        <td th:text="${borrow.userID}"></td>
-        <td th:text="${borrow.bookID}"></td>
+        <td th:text="${borrow.getUsername()}"></td>
+        <td th:text="${borrow.getBookTitle()}"></td>
         <td th:text="${borrow.borrowingDate}"></td>
         <td th:text="${borrow.returnDate}"></td>
         <td>

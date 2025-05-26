@@ -25,14 +25,6 @@ public class AuthViewController {
         this.userManagementService = userManagementService;
     }
 
-    @GetMapping("/signup")
-    public String signupPage(@ModelAttribute("signUpDTO") SignUpDTO signUpDTO,
-                             @RequestParam(value = "error", required = false) String error,
-                             Model model) {
-        model.addAttribute("error", error);
-        return "register";
-    }
-
     @PostMapping("/signup")
     public String signUp(@ModelAttribute("signUpDTO") SignUpDTO signUpDTO, RedirectAttributes redirectAttributes) {
         if (userRepository.existsUserByUsername(signUpDTO.getUsername())) {
@@ -44,20 +36,8 @@ public class AuthViewController {
         return "redirect:/auth/signin";
     }
 
-    @GetMapping("/signin")
-    public String signinPage(Model model) {
-        model.addAttribute("signInDTO", new SignInDTO());
-        return "login";
-    }
-
-    @GetMapping("/admin")
-    public String getAllUsers(Model model) {
-        model.addAttribute("users", userRepository.findAll());
-        return "user_list_admin";
-    }
-
-    @PostMapping("/admin/update/{userId}")
-    public String updateUser(@ModelAttribute UserUpdateDTO userUpdateDTO, @PathVariable Long userId, RedirectAttributes redirectAttributes) {
+    @PostMapping("/update/{userId}")
+    public String updateUserAdmin(@ModelAttribute UserUpdateDTO userUpdateDTO, @PathVariable Long userId, RedirectAttributes redirectAttributes) {
         userManagementService.updateUser(userId, userUpdateDTO);
         redirectAttributes.addFlashAttribute("message", "User updated successfully.");
         return "redirect:/admin/dashboard";
@@ -65,9 +45,38 @@ public class AuthViewController {
 
     @PostMapping("/admin/delete/{userId}")
     public String deleteUser(@PathVariable Long userId, RedirectAttributes redirectAttributes) {
-        userManagementService.deleteUser(userId);
-        redirectAttributes.addFlashAttribute("message", "User deleted successfully.");
+        try{
+            userManagementService.deleteUser(userId);
+            redirectAttributes.addFlashAttribute("message", "User deleted successfully.");
+
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("error", "Failed to delete user: " + e.getMessage());
+        }
         return "redirect:/admin/dashboard";
+    }
+
+    @PostMapping("/profile/update/{userId}")
+    public String updateProfile(@ModelAttribute UserUpdateDTO userUpdateDTO, @PathVariable Long userId, RedirectAttributes redirectAttributes){
+        try{
+            userManagementService.updateUser(userId, userUpdateDTO);
+            redirectAttributes.addFlashAttribute("message", "User updated successfully.");
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("error", "Failed to update user: " + e.getMessage());
+        }
+        return "redirect:/auth/profile";
+    }
+    @GetMapping("/signup")
+    public String signupPage(@ModelAttribute("signUpDTO") SignUpDTO signUpDTO,
+                             @RequestParam(value = "error", required = false) String error,
+                             Model model) {
+        model.addAttribute("error", error);
+        return "register";
+    }
+
+    @GetMapping("/signin")
+    public String signinPage(Model model) {
+        model.addAttribute("signInDTO", new SignInDTO());
+        return "login";
     }
 
     @GetMapping("/profile")
@@ -79,4 +88,23 @@ public class AuthViewController {
         return "profile";
     }
 
+    @GetMapping("/admin")
+    public String getAllUsers(Model model) {
+        model.addAttribute("users", userRepository.findAll());
+        return "user_list_admin";
+    }
+
+    @GetMapping("/profile/update")
+    public String updateProfileForm(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userManagementService.getUserInfo(username);
+
+        UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
+        userUpdateDTO.setUserID(user.getUserID());
+        userUpdateDTO.setUsername(user.getUsername());
+        userUpdateDTO.setEmail(user.getEmail());
+        model.addAttribute("user", userUpdateDTO);
+        return "update_user";
+    }
 }

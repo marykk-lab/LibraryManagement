@@ -44,7 +44,11 @@ public class BorrowServ {
         List<Borrow> allBorrows = borrowRep.findAll();
         ArrayList<BorrowDTO> DTOBorrowsArray = new ArrayList<>();
         for (Borrow borrow : allBorrows){
-            BorrowDTO borrowDTO = new BorrowDTO(borrow.getBorrowID(), borrow.getBorrowingDate(), borrow.getReturnDate(), borrow.getBook().getBookID(), borrow.getUser().getUserID());
+            String title = borrowRep.getReferenceById(borrow.getBorrowID()).getBook().getTitle();
+            String username = borrowRep.getReferenceById(borrow.getBorrowID()).getUser().getUsername();
+            BorrowDTO borrowDTO = new BorrowDTO(borrow.getBorrowID(), borrow.getBorrowingDate(),
+                                                borrow.getReturnDate(), borrow.getBook().getBookID(),
+                                                borrow.getUser().getUserID(), title, username);
             DTOBorrowsArray.add(borrowDTO);
         }
         return DTOBorrowsArray;
@@ -61,8 +65,11 @@ public class BorrowServ {
     public BorrowDTO getBorrowByID(Long ID){
         if (borrowRep.existsById(ID)) {
             Borrow borrow = borrowRep.getReferenceById(ID);
+            String title = borrow.getBook().getTitle();
+            String username = borrow.getUser().getUsername();
             BorrowDTO borrowDTO = new BorrowDTO(borrow.getBorrowID(), borrow.getBorrowingDate(),
-                    borrow.getReturnDate(), borrow.getBook().getBookID(), borrow.getUser().getUserID());
+                                                borrow.getReturnDate(), borrow.getBook().getBookID(),
+                                                borrow.getUser().getUserID(), title, username);
             return borrowDTO;
         }
         throw new IllegalArgumentException("This ID doesnt exist!");

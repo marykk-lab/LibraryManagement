@@ -103,9 +103,13 @@ public class UserManagementService {
     public Long updateUser(Long id, UserUpdateDTO updatedUser) {
         try {
             User existingUser = userRep.findById(id).orElseThrow();
-            existingUser.setEmail(updatedUser.getEmail());
-            existingUser.setUsername(updatedUser.getUsername());
-            if(updatedUser.getRole()!=null){
+            if (updatedUser.getEmail()!=null && !updatedUser.getEmail().isBlank()){
+                existingUser.setEmail(updatedUser.getEmail());
+            }
+            if (updatedUser.getUsername()!=null && !updatedUser.getUsername().isBlank()){
+                existingUser.setUsername(updatedUser.getUsername());
+            }
+            if(updatedUser.getRole()!=null && !updatedUser.getRole().isBlank()){
                 existingUser.setRole(updatedUser.getRole());
             }
 
@@ -113,7 +117,7 @@ public class UserManagementService {
                 existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
             }
 
-            User savedUser = userRep.save(existingUser);
+            userRep.save(existingUser);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

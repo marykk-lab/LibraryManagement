@@ -1,6 +1,6 @@
 package com.library_management.librarymanagement.DTOs.User;
 
-public class UserUpdateDTO {
+public class  UserUpdateDTO {
     private Long userID;
     private String username;
     private String password;
