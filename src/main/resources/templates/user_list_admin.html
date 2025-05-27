@@ -12,6 +12,8 @@
         <th>Username</th>
         <th>Email</th>
         <th>Role</th>
+        <th>Phone</th>
+        <th>City</th>
         <th>Change Role</th>
         <th>Actions</th>
     </tr>
@@ -22,6 +24,8 @@
         <td th:text="${u.username}">user</td>
         <td th:text="${u.email}">email</td>
         <td th:text="${u.role}">Role</td>
+        <td th:text="${u.phone}">Phone</td>
+        <td th:text="${u.city}">City</td>
         <td>
             <form th:action="@{/auth/admin/update/{userId}(userId=${u.userID})}" method="post">
                 <input type="hidden" name="username" th:value="${u.username}"/>
@@ -30,6 +34,8 @@
                     <option value="USER" th:selected="${u.role == 'USER'}">USER</option>
                     <option value="ADMIN" th:selected="${u.role == 'ADMIN'}">ADMIN</option>
                 </select>
+                <input type="hidden" name="phone" th:value="${u.phone}"/>
+                <input type="hidden" name="city" th:value="${u.city}"/>
                 <button type="submit">Update Role</button>
             </form>
         </td>

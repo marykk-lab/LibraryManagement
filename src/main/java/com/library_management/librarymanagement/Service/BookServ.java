@@ -26,7 +26,8 @@ public class BookServ {
         String title = bookSaveDTO.getTitle();
         if (!title.isBlank()&&!title.isEmpty()){
             Author author = authorRep.getReferenceById(bookSaveDTO.getAuthorID());
-            Book book = new Book(title, author);
+            Book book = new Book(title, author, bookSaveDTO.getDescription(),
+                    bookSaveDTO.getQuantity(), bookSaveDTO.getImageUrl());
             author.addBook(book);
             bookRep.save(book);
             return "Book was added - " + title;
@@ -49,7 +50,9 @@ public class BookServ {
         List<Book> allBooks = bookRep.findAll();
         ArrayList<BookDTO> DTOBookArray = new ArrayList<>();
         for (Book book : allBooks){
-            BookDTO DTOBook = new BookDTO(book.getBookID(), book.getTitle(), book.getAuthor().getAuthorID());
+            BookDTO DTOBook = new BookDTO(book.getBookID(), book.getTitle(),
+                    book.getAuthor().getAuthorID(), book.getDescription(),
+                    book.getQuantity(), book.getImageUrl());
             DTOBookArray.add(DTOBook);
         }
         return DTOBookArray;
@@ -79,7 +82,9 @@ public class BookServ {
     public BookDTO getBookByID(Long ID){
         if (bookRep.existsById(ID)){
             Book book = bookRep.getReferenceById(ID);
-            BookDTO bookDTO = new BookDTO(book.getBookID(), book.getTitle(), book.getAuthor().getAuthorID());
+            BookDTO bookDTO = new BookDTO(book.getBookID(), book.getTitle(),
+                    book.getAuthor().getAuthorID(), book.getDescription(), book.getQuantity(),
+                    book.getImageUrl());
             return bookDTO;
         }
         throw new IllegalArgumentException("This ID doesnt exist!");

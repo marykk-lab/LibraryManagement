@@ -4,16 +4,25 @@ public class BookUpdateDTO {
     private Long bookID;
     private String title;
     private Long authorID;
+    private String description;
+    private Integer quantity;
+    private String imageUrl;
 
-    public BookUpdateDTO(Long bookID, String title, Long authorID) {
+    public BookUpdateDTO(Long bookID, String title, Long authorID, String description, Integer quantity, String imageUrl) {
         this.bookID = bookID;
         this.title = title;
         this.authorID = authorID;
+        this.description = description;
+        this.quantity = quantity;
+        this.imageUrl = imageUrl;
     }
 
-    public BookUpdateDTO(String title, Long authorID) {
+    public BookUpdateDTO(String title, Long authorID, String description, Integer quantity, String imageUrl) {
         this.title = title;
         this.authorID = authorID;
+        this.description = description;
+        this.quantity = quantity;
+        this.imageUrl = imageUrl;
     }
 
     public BookUpdateDTO() {
@@ -43,6 +52,29 @@ public class BookUpdateDTO {
         this.authorID = authorID;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     @Override
     public String toString() {
@@ -50,6 +82,9 @@ public class BookUpdateDTO {
                 "bookID=" + bookID +
                 ", title='" + title + '\'' +
                 ", authorID=" + authorID +
+                ", description='" + description + '\'' +
+                ", quantity=" + quantity +
+                ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }
 }

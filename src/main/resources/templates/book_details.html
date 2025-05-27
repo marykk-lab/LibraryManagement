@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="'Book Details: ' + ${book.title}">Book Details</title>
+</head>
+<body>
+<h1 th:text="${book.title}">Book Title</h1>
+
+<p>
+    <strong>Author:</strong>
+    <span th:each="author : ${authors}" th:if="${author.authorID == book.authorID}" th:text="${author.name}">Author Name</span>
+</p>
+
+<p>
+    <strong>Description:</strong>
+    <span th:text="${book.description}">Book description</span>
+</p>
+
+<p>
+    <strong>Quantity Available:</strong>
+    <span th:text="${book.quantity}">Quantity</span>
+</p>
+
+<div th:if="${book.imageUrl != null and !#strings.isEmpty(book.imageUrl)}">
+    <img th:src="${book.imageUrl}" alt="Book Image" style="max-width: 300px; max-height: 400px;" />
+</div>
+
+<h3>Borrow This Book</h3>
+<form th:action="@{/borrow/add}" th:object="${borrowRequest}" method="post">
+    <input type="hidden" th:field="*{bookID}" th:value="${book.bookID}" />
+    <label>Borrow Date:
+        <input type="date" th:field="*{borrowDate}" required />
+    </label>
+    <label>Return Date:
+        <input type="date" th:field="*{returnDate}" required />
+    </label>
+    <button type="submit">Borrow</button>
+</form>
+</body>
+</html>

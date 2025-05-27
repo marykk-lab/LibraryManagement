@@ -21,6 +21,14 @@
         <input type="password" th:field="*{password}" class="form-control">
         <small class="form-text text-muted">Leave blank to keep your current password.</small>
     </div>
+    <div class="mb-3">
+        <label>City:</label>
+        <input type="text" th:field="*{city}" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label>Phone Number:</label>
+        <input type="tel" th:field="*{phone}" class="form-control">
+    </div>
     <button type="submit" class="btn btn-success">Save Changes</button>
 </form>
 </body>

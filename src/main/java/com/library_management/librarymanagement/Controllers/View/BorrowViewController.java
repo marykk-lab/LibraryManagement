@@ -1,11 +1,16 @@
 package com.library_management.librarymanagement.Controllers.View;
 
+import java.security.Principal;
 import java.util.List;
 
 import com.library_management.librarymanagement.DTOs.Borrow.BorrowUpdateDTO;
+import com.library_management.librarymanagement.Entities.User;
+import com.library_management.librarymanagement.Security.UserDetailsImpl;
 import com.library_management.librarymanagement.Service.BookServ;
 import com.library_management.librarymanagement.Service.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,12 +36,32 @@ public class BorrowViewController {
     @Autowired
     private UserManagementService userManagementService;
 
-    @PostMapping(path = "/add")
-    public String addBorrow(@ModelAttribute BorrowSaveDTO borrowSaveDTO, RedirectAttributes redirectAttributes){
-        borrowServ.addBorrow(borrowSaveDTO);
-        redirectAttributes.addFlashAttribute("message", "Borrow was succesfully created.");
+    @PostMapping(path = "/admin/add")
+    public String addBorrowAdmin(@ModelAttribute BorrowSaveDTO borrowSaveDTO, RedirectAttributes redirectAttributes){
+        try{
+            borrowServ.addBorrow(borrowSaveDTO);
+            redirectAttributes.addFlashAttribute("message", "Borrow was succesfully created.");
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
         return "redirect:/admin/dashboard";
     }
+
+    @PostMapping("/add")
+    public String addBorrowUser(@ModelAttribute BorrowSaveDTO borrowSaveDTO, RedirectAttributes redirectAttributes) {
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            borrowSaveDTO.setUserID(userDetails.getId());
+            System.out.println(borrowSaveDTO.getUserID());
+            borrowServ.addBorrow(borrowSaveDTO);
+            redirectAttributes.addFlashAttribute("message", "You have successfully borrowed the book.");
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect:/";
+    }
+
 
     @PostMapping(path = "/admin/delete/{id}")
     public String removeBorrow(@PathVariable Long id, RedirectAttributes redirectAttributes) {

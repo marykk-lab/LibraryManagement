@@ -3,22 +3,20 @@ package com.library_management.librarymanagement.Controllers.View;
 import java.util.List;
 
 import com.library_management.librarymanagement.DTOs.Author.AuthorDTO;
+import com.library_management.librarymanagement.DTOs.Borrow.BorrowSaveDTO;
+import com.library_management.librarymanagement.Entities.Book;
+import com.library_management.librarymanagement.Repositories.BookRep;
 import com.library_management.librarymanagement.Service.AuthorServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.library_management.librarymanagement.DTOs.Book.BookDTO;
 import com.library_management.librarymanagement.DTOs.Book.BookSaveDTO;
 import com.library_management.librarymanagement.DTOs.Book.BookUpdateDTO;
 import com.library_management.librarymanagement.Service.BookServ;
-
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 @RequestMapping("book")
@@ -27,6 +25,8 @@ public class BookViewController {
     private BookServ bookServ;
     @Autowired
     private AuthorServ authorServ;
+    @Autowired
+    private BookRep bookRep;
 
     @PostMapping(path = "/admin/add")
     public String addBook(@ModelAttribute BookSaveDTO bookSaveDTO, RedirectAttributes redirectAttributes) {
@@ -81,5 +81,13 @@ public class BookViewController {
         model.addAttribute("authors", authorServ.getAuthors());
         return "add_book";
     }
-       
+
+    @GetMapping("/{id}")
+    public String getBookDetails(@PathVariable Long id, Model model) {
+        BookDTO bookDTO = bookServ.getBookByID(id);
+        Book book = bookRep.getReferenceById(id);
+        model.addAttribute("book", bookDTO);
+        model.addAttribute("borrowRequest", new BorrowSaveDTO());
+        return "book_details";
+    }
 }

@@ -20,20 +20,27 @@ public class User {
     @Column(nullable = false,unique = true)
     private String email;
 
+    private String phone;
+    private String city;
+
     private String role;
 
-    public User(Long userID, String username, String password, String email, String role) {
+    public User(Long userID, String username, String password, String email, String phone, String city, String role) {
         this.userID = userID;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.phone = phone;
+        this.city = city;
         this.role = role;
     }
 
-    public User(String username, String password, String email, String role) {
+    public User(String username, String password, String email, String phone, String city, String role) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.phone = phone;
+        this.city = city;
         this.role = role;
     }
 
@@ -80,6 +87,22 @@ public class User {
         this.role = role;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -87,6 +110,8 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", city='" + city + '\'' +
                 ", role='" + role + '\'' +
                 '}';
     }

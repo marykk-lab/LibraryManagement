@@ -21,18 +21,29 @@ public class Book {
     @JoinColumn(name = "author_id")
     private Author author;
 
+    private String description;
+    private Integer quantity;
+    private String imageUrl;
+
     @OneToMany(mappedBy = "book")
     private Set<Borrow> borrows = new HashSet<>();
 
-    public Book(Long bookID, String title, Author author) {
+
+    public Book(Long bookID, String title, Author author, String description, int quantity, String imageUrl) {
         this.bookID = bookID;
         this.title = title;
         this.author = author;
+        this.description = description;
+        this.quantity = quantity;
+        this.imageUrl = imageUrl;
     }
 
-    public Book(String title, Author author) {
+    public Book(String title, Author author, String description, Integer quantity, String imageUrl) {
         this.title = title;
         this.author = author;
+        this.description = description;
+        this.quantity = quantity;
+        this.imageUrl = imageUrl;
     }
 
     public Book() {
@@ -44,6 +55,16 @@ public class Book {
             return true;
         }
         return false;
+    }
+
+    public boolean minusBook(){
+        quantity--;
+        return true;
+    }
+
+    public boolean plusBook(){
+        quantity++;
+        return true;
     }
 
     public Long getBookID() {
@@ -68,6 +89,30 @@ public class Book {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Set<Borrow> getBorrows() {

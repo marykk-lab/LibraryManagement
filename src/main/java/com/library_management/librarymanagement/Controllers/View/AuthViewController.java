@@ -5,6 +5,7 @@ import com.library_management.librarymanagement.DTOs.User.SignUpDTO;
 import com.library_management.librarymanagement.DTOs.User.UserUpdateDTO;
 import com.library_management.librarymanagement.Entities.User;
 import com.library_management.librarymanagement.Repositories.UserRep;
+import com.library_management.librarymanagement.Security.UserDetailsImpl;
 import com.library_management.librarymanagement.Service.UserManagementService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,7 +37,7 @@ public class AuthViewController {
         return "redirect:/auth/signin";
     }
 
-    @PostMapping("/update/{userId}")
+    @PostMapping("/admin/update/{userId}")
     public String updateUserAdmin(@ModelAttribute UserUpdateDTO userUpdateDTO, @PathVariable Long userId, RedirectAttributes redirectAttributes) {
         userManagementService.updateUser(userId, userUpdateDTO);
         redirectAttributes.addFlashAttribute("message", "User updated successfully.");
@@ -82,8 +83,8 @@ public class AuthViewController {
     @GetMapping("/profile")
     public String getUserProfile(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User response = userManagementService.getUserInfo(username);
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User response = userManagementService.getUserInfoById(userDetails.getId());
         model.addAttribute("user", response);
         return "profile";
     }
@@ -97,13 +98,15 @@ public class AuthViewController {
     @GetMapping("/profile/update")
     public String updateProfileForm(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userManagementService.getUserInfo(username);
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User user = userManagementService.getUserInfoById(userDetails.getId());
 
         UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
         userUpdateDTO.setUserID(user.getUserID());
         userUpdateDTO.setUsername(user.getUsername());
         userUpdateDTO.setEmail(user.getEmail());
+        userUpdateDTO.setCity(user.getCity());
+        userUpdateDTO.setPhone(user.getPhone());
         model.addAttribute("user", userUpdateDTO);
         return "update_user";
     }

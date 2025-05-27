@@ -116,7 +116,12 @@ public class UserManagementService {
             if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
                 existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
             }
-
+            if(updatedUser.getCity()!=null && !updatedUser.getCity().isBlank()){
+                existingUser.setCity(updatedUser.getCity());
+            }
+            if(updatedUser.getPhone()!=null && !updatedUser.getPhone().isBlank()){
+                existingUser.setPhone(updatedUser.getPhone());
+            }
             userRep.save(existingUser);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -126,8 +131,14 @@ public class UserManagementService {
 
     public User getUserInfo(String username) {
         if (!username.isEmpty() && !username.isBlank()) {
-            User user = userRep.findByUsername(username).orElseThrow();
+            User user = userRep.findByUsername(username).orElseThrow(()->new RuntimeException("User not found"));
             return user;
+        }
+        throw new IllegalArgumentException("User not found");
+    }
+    public User getUserInfoById(Long id) {
+        if(id != null){
+            return userRep.getReferenceById(id);
         }
         throw new IllegalArgumentException("User not found");
     }

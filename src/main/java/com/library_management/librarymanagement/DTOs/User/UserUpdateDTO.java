@@ -6,20 +6,27 @@ public class  UserUpdateDTO {
     private String password;
     private String email;
     private String role;
+    private String phone;
+    private String city;
 
-    public UserUpdateDTO(Long userID, String username, String password, String email, String role) {
+
+    public UserUpdateDTO(Long userID, String username, String password, String email, String role, String phone, String city) {
         this.userID = userID;
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
+        this.phone = phone;
+        this.city = city;
     }
 
-    public UserUpdateDTO(Long userID, String username, String password, String email) {
-        this.userID = userID;
+    public UserUpdateDTO(String username, String password, String email, String role, String phone, String city) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.role = role;
+        this.phone = phone;
+        this.city = city;
     }
 
     public UserUpdateDTO() {
@@ -67,5 +74,21 @@ public class  UserUpdateDTO {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

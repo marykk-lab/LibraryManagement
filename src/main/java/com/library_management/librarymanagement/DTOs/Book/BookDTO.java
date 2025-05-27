@@ -4,11 +4,25 @@ public class BookDTO {
     private Long bookID;
     private String title;
     private Long authorID;
+    private String description;
+    private Integer quantity;
+    private String imageUrl;
 
-    public BookDTO(Long bookID, String title, Long authorID) {
+    public BookDTO(Long bookID, String title, Long authorID, String description, Integer quantity, String imageUrl) {
         this.bookID = bookID;
         this.title = title;
         this.authorID = authorID;
+        this.description = description;
+        this.quantity = quantity;
+        this.imageUrl = imageUrl;
+    }
+
+    public BookDTO(String title, Long authorID, String description, Integer quantity, String imageUrl) {
+        this.title = title;
+        this.authorID = authorID;
+        this.description = description;
+        this.quantity = quantity;
+        this.imageUrl = imageUrl;
     }
 
     public BookDTO() {
@@ -38,12 +52,39 @@ public class BookDTO {
         this.authorID = authorID;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     @Override
     public String toString() {
         return "BookDTO{" +
                 "bookID=" + bookID +
                 ", title='" + title + '\'' +
                 ", authorID=" + authorID +
+                ", description='" + description + '\'' +
+                ", quantity=" + quantity +
+                ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }
 }

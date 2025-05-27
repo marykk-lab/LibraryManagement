@@ -5,7 +5,7 @@
 </head>
 <body>
 <h2>Add Borrow</h2>
-<form th:action="@{/borrow/add}" th:object="${borrow}" method="post">
+<form th:action="@{/borrow/admin/add}" th:object="${borrow}" method="post">
     <label>User:</label>
     <select th:field="*{userID}" required>
         <option th:each="u : ${users}" th:value="${u.userID}" th:text="${u.username}"></option>

@@ -19,6 +19,7 @@
     <form th:action="@{/book/admin/add}" th:object="${bookSaveDTO}" method="post">
         <label for="title">Book Title</label>
         <input type="text" th:field="*{title}" id="title" required>
+
         <label for="authorID">Author</label>
         <select th:field="*{authorID}" id="authorID" required>
             <option value="" disabled selected>Select author</option>
@@ -26,6 +27,16 @@
                     th:value="${author.authorID}"
                     th:text="${author.name}"></option>
         </select>
+
+        <label for="description">Description</label>
+        <textarea th:field="*{description}" id="description" placeholder="Enter a short description"></textarea>
+
+        <label for="quantity">Quantity</label>
+        <input type="number" th:field="*{quantity}" id="quantity" min="1" required>
+
+        <label for="imageUrl">Image Link</label>
+        <input type="text" th:field="*{imageUrl}" id="imageUrl" placeholder="Paste image URL here">
+
         <button type="submit">Add Book</button>
     </form>
     <a th:href="@{/admin/dashboard}">← Back to Dashboard</a>

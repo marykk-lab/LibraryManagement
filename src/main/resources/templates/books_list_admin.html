@@ -3,28 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Books List</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { padding: 8px 12px; border-bottom: 1px solid #ddd; }
+        img { max-height: 80px; }
+        .inline { display: inline; }
+    </style>
 </head>
 <body>
 <h2>Books List</h2>
 <table>
     <thead>
     <tr>
+        <th>Image</th>
         <th>Title</th>
         <th>Author</th>
+        <th>Description</th>
+        <th>Quantity</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="book : ${books}">
+        <td>
+            <img th:if="${book.imageUrl != null and !#strings.isEmpty(book.imageUrl)}"
+                 th:src="${book.imageUrl}" alt="Book Image"/>
+        </td>
         <td th:text="${book.title}">Title</td>
         <td>
-                <span th:each="author : ${authors}"
-                      th:if="${author.authorID} == ${book.authorID}"
-                      th:text="${author.name}">
-                    AuthorName
-                </span>
+            <span th:each="author : ${authors}"
+                  th:if="${author.authorID} == ${book.authorID}"
+                  th:text="${author.name}">
+                AuthorName
+            </span>
         </td>
+        <td th:text="${book.description}">Description</td>
+        <td th:text="${book.quantity}">Quantity</td>
         <td>
+            <a th:href="@{/book/{id}(id=${book.bookID})}">
+                <button type="button">View</button>
+            </a>
             <a th:href="@{/book/admin/update/{id}(id=${book.bookID})}">
                 <button type="button">Update</button>
             </a>
@@ -35,11 +53,10 @@
         </td>
     </tr>
     <tr th:if="${#lists.isEmpty(books)}">
-        <td colspan="3" style="text-align:center;color:#bbb;">No books found.</td>
+        <td colspan="6" style="text-align:center;color:#bbb;">No books found.</td>
     </tr>
     </tbody>
 </table>
 <a th:href="@{/admin/dashboard}">Back to Dashboard</a>
-
 </body>
 </html>

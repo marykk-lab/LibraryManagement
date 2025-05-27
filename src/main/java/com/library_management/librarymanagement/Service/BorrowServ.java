@@ -29,13 +29,17 @@ public class BorrowServ {
 
     public Long addBorrow(BorrowSaveDTO borrowSaveDTO){
         if (borrowSaveDTO!=null){
-            LocalDate localDate = LocalDate.now();
             Book book = bookRep.getReferenceById(borrowSaveDTO.getBookID());
-            User user = userRep.getReferenceById(borrowSaveDTO.getUserID());
-            Borrow borrow = new Borrow(localDate, localDate.plusDays(5), book, user);
-            book.addBorrow(borrow);
-            borrowRep.save(borrow);
-            return borrowSaveDTO.getBookID();
+            if (book.getQuantity()>0){
+                LocalDate localDate = LocalDate.now();
+                User user = userRep.getReferenceById(borrowSaveDTO.getUserID());
+                Borrow borrow = new Borrow(localDate, localDate.plusDays(5), book, user);
+                book.addBorrow(borrow);
+                book.minusBook();
+                borrowRep.save(borrow);
+                return borrowSaveDTO.getBookID();
+            }
+            throw new ArithmeticException("There is no book left in the system");
         }
         throw new IllegalArgumentException("Form is empty!");
     }
@@ -56,6 +60,9 @@ public class BorrowServ {
 
     public Long deleteBorrowByID(Long ID){
         if (borrowRep.existsById(ID)){
+            Borrow borrow = borrowRep.getReferenceById(ID);
+            Book book = bookRep.getReferenceById(borrow.getBook().getBookID());
+            book.plusBook();
             borrowRep.deleteById(ID);
             return ID;
         }
