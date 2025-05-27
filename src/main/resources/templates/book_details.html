@@ -14,6 +14,7 @@
 <p>
     <strong>Description:</strong>
     <span th:text="${book.description}">Book description</span>
+    <span th:text="${book.bookID}">Book id</span>
 </p>
 
 <p>
@@ -27,7 +28,7 @@
 
 <h3>Borrow This Book</h3>
 <form th:action="@{/borrow/add}" th:object="${borrowRequest}" method="post">
-    <input type="hidden" th:field="*{bookID}" th:value="${book.bookID}" />
+    <input type="hidden" th:field="*{bookID}" />
     <label>Borrow Date:
         <input type="date" th:field="*{borrowDate}" required />
     </label>

@@ -54,6 +54,7 @@ public class BorrowViewController {
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             borrowSaveDTO.setUserID(userDetails.getId());
             System.out.println(borrowSaveDTO.getUserID());
+            System.out.println(borrowSaveDTO);
             borrowServ.addBorrow(borrowSaveDTO);
             redirectAttributes.addFlashAttribute("message", "You have successfully borrowed the book.");
         }catch (Exception e){
@@ -100,5 +101,11 @@ public class BorrowViewController {
         model.addAttribute("users", userManagementService.getAllUsers());
         model.addAttribute("books", bookServ.getBooks());
         return "update_borrow";
+    }
+
+    @GetMapping()
+    public String getBorrows(Model model) {
+
+        return "borrows_list";
     }
 }

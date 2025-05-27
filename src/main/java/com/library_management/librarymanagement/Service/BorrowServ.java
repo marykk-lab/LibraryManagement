@@ -36,6 +36,7 @@ public class BorrowServ {
                 Borrow borrow = new Borrow(localDate, localDate.plusDays(5), book, user);
                 book.addBorrow(borrow);
                 book.minusBook();
+                user.addBorrow(borrow);
                 borrowRep.save(borrow);
                 return borrowSaveDTO.getBookID();
             }

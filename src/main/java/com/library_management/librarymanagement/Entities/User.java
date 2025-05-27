@@ -2,6 +2,9 @@ package com.library_management.librarymanagement.Entities;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Entity
 @Table(name = "users")
@@ -24,6 +27,8 @@ public class User {
     private String city;
 
     private String role;
+    @OneToMany(mappedBy = "user")
+    private Set<Borrow> borrowSet = new HashSet<>();
 
     public User(Long userID, String username, String password, String email, String phone, String city, String role) {
         this.userID = userID;
@@ -45,6 +50,10 @@ public class User {
     }
 
     public User() {
+    }
+
+    public boolean addBorrow(Borrow borrow) {
+        return borrowSet.add(borrow);
     }
 
     public Long getUserID() {
@@ -101,6 +110,14 @@ public class User {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public Set<Borrow> getBorrowSet() {
+        return borrowSet;
+    }
+
+    public void setBorrowSet(Set<Borrow> borrowSet) {
+        this.borrowSet = borrowSet;
     }
 
     @Override

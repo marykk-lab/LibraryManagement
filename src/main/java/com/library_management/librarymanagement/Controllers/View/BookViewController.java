@@ -85,9 +85,10 @@ public class BookViewController {
     @GetMapping("/{id}")
     public String getBookDetails(@PathVariable Long id, Model model) {
         BookDTO bookDTO = bookServ.getBookByID(id);
-        Book book = bookRep.getReferenceById(id);
+        BorrowSaveDTO borrowRequest = new BorrowSaveDTO();
+        borrowRequest.setBookID(bookDTO.getBookID());
         model.addAttribute("book", bookDTO);
-        model.addAttribute("borrowRequest", new BorrowSaveDTO());
+        model.addAttribute("borrowRequest", borrowRequest);
         return "book_details";
     }
 }
