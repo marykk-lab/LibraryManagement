@@ -16,12 +16,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/auth")
-public class AuthViewController {
+public class UserViewController {
 
     private final UserRep userRepository;
     private final UserManagementService userManagementService;
 
-    public AuthViewController(UserRep userRepository, UserManagementService userManagementService) {
+    public UserViewController(UserRep userRepository, UserManagementService userManagementService) {
         this.userRepository = userRepository;
         this.userManagementService = userManagementService;
     }
@@ -96,7 +96,7 @@ public class AuthViewController {
     }
 
     @GetMapping("/profile/update")
-    public String updateProfileForm(Model model){
+    public String updateProfileForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userManagementService.getUserInfoById(userDetails.getId());

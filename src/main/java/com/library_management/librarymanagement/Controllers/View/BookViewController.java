@@ -87,8 +87,17 @@ public class BookViewController {
         BookDTO bookDTO = bookServ.getBookByID(id);
         BorrowSaveDTO borrowRequest = new BorrowSaveDTO();
         borrowRequest.setBookID(bookDTO.getBookID());
+        model.addAttribute("authors", authorServ.getAuthors());
         model.addAttribute("book", bookDTO);
         model.addAttribute("borrowRequest", borrowRequest);
         return "book_details";
+    }
+    //gpt here
+    @GetMapping("/search")
+    public String searchBooks(@RequestParam("q") String query, Model model) {
+        List<BookDTO> books = bookServ.searchBooksByTitle(query);
+        model.addAttribute("books", books);
+        model.addAttribute("searchQuery", query);
+        return "books_list";
     }
 }

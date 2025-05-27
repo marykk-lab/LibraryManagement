@@ -27,11 +27,8 @@
             <form th:action="@{/logout}" method="post" style="display:inline;">
                 <button type="submit">Logout</button>
             </form>
-            <form th:action="@{/book/search}" method="get">
-                <input type="text" name="query" placeholder="Search by title..." />
-                <input type="text" name="author" placeholder="Search by author..." />
-                <button type="submit">Search</button>
-            </form>
+            <a th:href="@{/borrow}">My Borrows</a>
+            <a th:href="@{/book}">Search Books</a>
         </div>
         <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
         <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>

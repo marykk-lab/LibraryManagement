@@ -31,7 +31,10 @@ public class AuthorRestContr {
     public AuthorDTO getAuthorByID(@PathVariable Long id){
         return authorServ.getAuthorByID(id);
     }
-
+    @GetMapping(path = "/admin/{id}")
+    public Set<Book> getBookById(@PathVariable Long id){
+        return authorServ.getBooksById(id);
+    }
     @PutMapping(path = "/admin")
     public String updateAuthor(@RequestBody AuthorUpdateDTO authorUpdateDTO){
         return authorServ.updateAuthor(authorUpdateDTO);
@@ -47,8 +50,5 @@ public class AuthorRestContr {
         return authorServ.deleteAuthorByName(name);
     }
 
-    @GetMapping(path = "/admin/{id}")
-    public Set<Book> getBookById(@PathVariable Long id){
-        return authorServ.getBooksById(id);
-    }
+
 }

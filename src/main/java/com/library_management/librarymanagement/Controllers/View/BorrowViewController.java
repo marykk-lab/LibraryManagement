@@ -2,8 +2,11 @@ package com.library_management.librarymanagement.Controllers.View;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.library_management.librarymanagement.DTOs.Borrow.BorrowUpdateDTO;
+import com.library_management.librarymanagement.Entities.Borrow;
 import com.library_management.librarymanagement.Entities.User;
 import com.library_management.librarymanagement.Security.UserDetailsImpl;
 import com.library_management.librarymanagement.Service.BookServ;
@@ -105,7 +108,11 @@ public class BorrowViewController {
 
     @GetMapping()
     public String getBorrows(Model model) {
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User user = userManagementService.getUserInfoById(userDetails.getId());
+        Set<Borrow> borrows = user.getBorrowSet();
+        model.addAttribute("borrows", borrows);
         return "borrows_list";
     }
 }

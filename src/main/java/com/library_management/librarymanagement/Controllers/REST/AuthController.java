@@ -44,18 +44,16 @@ public class AuthController {
     public ResponseEntity<SignInDTO> getUserById(@PathVariable Long userId) {
         return ResponseEntity.ok(userManagementService.getUserByID(userId));
     }
-
-    @PutMapping("/admin/{userId}")
-    public ResponseEntity<Long> updateUser(@PathVariable Long userId, @RequestBody UserUpdateDTO user) {
-        return ResponseEntity.ok(userManagementService.updateUser(userId, user));
-    }
-
     @GetMapping("/get_profile")
     public ResponseEntity<User> getUserProfile() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User response = userManagementService.getUserInfo(username);
         return ResponseEntity.ok(response);
+    }
+    @PutMapping("/admin/{userId}")
+    public ResponseEntity<Long> updateUser(@PathVariable Long userId, @RequestBody UserUpdateDTO user) {
+        return ResponseEntity.ok(userManagementService.updateUser(userId, user));
     }
 
     @DeleteMapping("/admin/{userId}")

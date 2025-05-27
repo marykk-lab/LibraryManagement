@@ -27,6 +27,23 @@ public class AuthorViewController {
         redirectAttributes.addFlashAttribute("message", "Author succesfully created.");
         return "redirect:/admin/dashboard";
     }
+    @PostMapping(path = "/admin/delete/{id}")
+    public String removeAuthor(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try{
+            authorServ.deleteAuthorById(id);
+            redirectAttributes.addFlashAttribute("message", "Author deleted succesfully");
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("error", "Failed to delete author: " + e.getMessage());
+        }
+        return "redirect:/admin/dashboard";
+    }
+
+    @PostMapping(path = "/admin/update/{id}")
+    public String updateAuthor(@ModelAttribute AuthorUpdateDTO authorUpdateDTO, @PathVariable Long id, RedirectAttributes redirectAttributes) {
+        authorServ.updateAuthor(authorUpdateDTO);
+        redirectAttributes.addFlashAttribute("message", "Author succesfully updated");
+        return "redirect:/admin/dashboard";
+    }
 
     @GetMapping(path = "/admin/add")
     public String addAuthorPage(Model model) {
@@ -48,27 +65,10 @@ public class AuthorViewController {
         return "authors_list_admin";
     }
 
-    @PostMapping(path = "/admin/delete/{id}")
-    public String removeAuthor(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        try{
-            authorServ.deleteAuthorById(id);
-            redirectAttributes.addFlashAttribute("message", "Author deleted succesfully");
-        }catch (Exception e){
-            redirectAttributes.addFlashAttribute("error", "Failed to delete author: " + e.getMessage());
-        }
-        return "redirect:/admin/dashboard";
-    }
-
     @GetMapping(path = "/admin/update/{id}")
     public String authorUpdateForm(@PathVariable Long id, Model model) {
         AuthorDTO authorDTO = authorServ.getAuthorByID(id);
         model.addAttribute("author", authorDTO);
         return "update_author";
-    }
-    @PostMapping(path = "/admin/update/{id}")
-    public String updateAuthor(@ModelAttribute AuthorUpdateDTO authorUpdateDTO, @PathVariable Long id, RedirectAttributes redirectAttributes) {
-        authorServ.updateAuthor(authorUpdateDTO);
-        redirectAttributes.addFlashAttribute("message", "Author succesfully updated");
-        return "redirect:/admin/dashboard";
     }
 }

@@ -1,1 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Books List</title>
+</head>
+<body>
+<form th:action="@{/book/search}" method="get" style="margin-bottom: 1em;">
+    <input type="text" name="q" th:value="${searchQuery}" placeholder="Search books by title..."/>
+    <button type="submit">Search</button>
+</form>
+
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>About</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.title}"></td>
+        <td>
+            <a th:href="@{/book/{id}(id=${book.bookID})}">About</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
+
 

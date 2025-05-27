@@ -97,4 +97,17 @@ public class BookServ {
         }
         throw new IllegalArgumentException("This ID doesnt exist!");
     }
+
+    public List<BookDTO> searchBooksByTitle(String title) {
+        List<Book> foundBooks = bookRep.findByTitleIgnoreCaseContaining(title);
+        List<BookDTO> result = new ArrayList<>();
+        for (Book book : foundBooks) {
+            result.add(new BookDTO(
+                    book.getBookID(), book.getTitle(), book.getAuthor().getAuthorID(),
+                    book.getDescription(), book.getQuantity(), book.getImageUrl()
+            ));
+        }
+        return result;
+    }
+
 }

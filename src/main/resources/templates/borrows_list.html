@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>My Borrows</title>
 </head>
 <body>
+    <h2>My Borrows</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Book</th>
+                <th>Borrowing date</th>
+                <th>Returning date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="b : ${borrows}">
+                <td><img th:if="${b.getBook().getImageUrl() != null and !#strings.isEmpty(b.getBook().getImageUrl())}"
+                         th:src="${b.getBook().getImageUrl()}" alt="Book Image"/></td>
+                <td th:text="${b.getBook().title}">title</td>
+                <td th:text="${b.borrowingDate}">borrowing date</td>
+                <td th:text="${b.returnDate}">returning date</td>
+            </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/}">Back</a>
 
 </body>
 </html>
