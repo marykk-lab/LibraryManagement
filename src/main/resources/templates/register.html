@@ -2,25 +2,46 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Register</title>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f8fafb; }
+        .register-container {
+            max-width: 430px;
+            margin: 5rem auto 0 auto;
+            background: #fff;
+            padding: 2.5rem 2rem 2rem 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 6px 24px rgba(100,120,180,0.08);
+        }
+    </style>
 </head>
 <body>
-<h1>Register</h1>
-<form th:action="@{/auth/signup}" th:object="${signUpDTO}" method="post">
-    <div th:if="${error}" style="color: red;">[[${error}]]</div>
-    <div>
-        <label>Username:</label>
-        <input type="text" th:field="*{username}" required/>
-    </div>
-    <div>
-        <label>Email:</label>
-        <input type="email" th:field="*{email}" required/>
-    </div>
-    <div>
-        <label>Password:</label>
-        <input type="password" th:field="*{password}" required/>
-    </div>
-    <button type="submit">Register</button>
-</form>
-<p>You already have an account? <a th:href="@{/auth/signin}">Log In</a></p>
+<div class="register-container">
+    <h1 class="text-center mb-4">Register</h1>
+    <form th:action="@{/auth/signup}" th:object="${signUpDTO}" method="post">
+        <div th:if="${error}" class="alert alert-danger mb-3 text-center">[[${error}]]</div>
+        <div class="mb-3">
+            <label class="form-label">Username:</label>
+            <input type="text" th:field="*{username}" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email:</label>
+            <input type="email" th:field="*{email}" class="form-control" required />
+        </div>
+        <div class="mb-4">
+            <label class="form-label">Password:</label>
+            <input type="password" th:field="*{password}" class="form-control" required />
+        </div>
+        <div class="d-grid mb-2">
+            <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+    </form>
+    <p class="mt-3 text-center">
+        Already have an account?
+        <a th:href="@{/auth/signin}">Log In</a>
+    </p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

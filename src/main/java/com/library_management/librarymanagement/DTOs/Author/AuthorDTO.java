@@ -3,11 +3,16 @@ package com.library_management.librarymanagement.DTOs.Author;
 public class AuthorDTO {
     private Long authorID;
     private String name;
+    private String wikiUrl;
+    private String imageUrl;
 
-    public AuthorDTO(Long authorID, String name) {
+    public AuthorDTO(Long authorID, String name, String wikiUrl, String imageUrl) {
         this.authorID = authorID;
         this.name = name;
+        this.wikiUrl = wikiUrl;
+        this.imageUrl = imageUrl;
     }
+
 
     public AuthorDTO() {
     }
@@ -28,11 +33,19 @@ public class AuthorDTO {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "AuthorDTO{" +
-                "authorID=" + authorID +
-                ", name='" + name + '\'' +
-                '}';
+    public String getWikiUrl() {
+        return wikiUrl;
+    }
+
+    public void setWikiUrl(String wikiUrl) {
+        this.wikiUrl = wikiUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

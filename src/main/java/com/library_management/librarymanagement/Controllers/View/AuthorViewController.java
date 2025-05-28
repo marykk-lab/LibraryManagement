@@ -1,5 +1,11 @@
 package com.library_management.librarymanagement.Controllers.View;
 
+import com.library_management.librarymanagement.DTOs.Book.BookDTO;
+import com.library_management.librarymanagement.DTOs.Borrow.BorrowSaveDTO;
+import com.library_management.librarymanagement.Entities.Author;
+import com.library_management.librarymanagement.Entities.Book;
+import com.library_management.librarymanagement.Repositories.AuthorRep;
+import com.library_management.librarymanagement.Service.BookServ;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -70,5 +78,22 @@ public class AuthorViewController {
         AuthorDTO authorDTO = authorServ.getAuthorByID(id);
         model.addAttribute("author", authorDTO);
         return "update_author";
+    }
+
+    @GetMapping("/{id}")
+    public String getAuthorDetails(@PathVariable Long id, Model model) {
+        AuthorDTO authorDTO = authorServ.getAuthorByID(id);
+        Set<Book> books = authorServ.getBooksById(id);
+        model.addAttribute("books", books);
+        model.addAttribute("author", authorDTO);
+        return "author_details";
+    }
+
+    @GetMapping("/search")
+    public String searchAuthors(@RequestParam("q") String query, Model model) {
+        List<AuthorDTO> authors = authorServ.searchAuthorsByName(query);
+        model.addAttribute("authors", authors);
+        model.addAttribute("searchQuery", query);
+        return "authors_list";
     }
 }

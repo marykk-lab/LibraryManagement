@@ -3,6 +3,7 @@ package com.library_management.librarymanagement.Service;
 import com.library_management.librarymanagement.DTOs.Author.AuthorDTO;
 import com.library_management.librarymanagement.DTOs.Author.AuthorSaveDTO;
 import com.library_management.librarymanagement.DTOs.Author.AuthorUpdateDTO;
+import com.library_management.librarymanagement.DTOs.Book.BookDTO;
 import com.library_management.librarymanagement.Entities.Author;
 import com.library_management.librarymanagement.Entities.Book;
 import com.library_management.librarymanagement.Repositories.AuthorRep;
@@ -21,7 +22,7 @@ public class AuthorServ{
     public String addAuthor(AuthorSaveDTO authorSaveDTO) {
          String name = authorSaveDTO.getName();
          if (!name.isEmpty() && !name.isBlank()){
-             Author newAuthor = new Author(name);
+             Author newAuthor = new Author(name, authorSaveDTO.getWikiUrl(), authorSaveDTO.getImageUrl());
              authorRep.save(newAuthor);
              return "Author was added - " + name;
          }
@@ -32,6 +33,8 @@ public class AuthorServ{
         if (authorRep.existsById(authorUpdateDTO.getAuthorID())) {
             Author author = authorRep.getReferenceById(authorUpdateDTO.getAuthorID());
             author.setName(authorUpdateDTO.getName());
+            author.setWikiUrl(authorUpdateDTO.getWikiUrl());
+            author.setImageUrl(authorUpdateDTO.getImageUrl());
             authorRep.save(author);
             return "Author was updated - " + author.getName();
         }
@@ -50,7 +53,7 @@ public class AuthorServ{
         List<Author> allAuthors = authorRep.findAll();
         ArrayList<AuthorDTO> DTOAuthorsArray = new ArrayList<>();
         for (Author author : allAuthors){
-            AuthorDTO DTOAuthor = new AuthorDTO(author.getAuthorID(), author.getName());
+            AuthorDTO DTOAuthor = new AuthorDTO(author.getAuthorID(), author.getName(), author.getWikiUrl(), author.getImageUrl());
             DTOAuthorsArray.add(DTOAuthor);
         }
         return DTOAuthorsArray;
@@ -59,7 +62,7 @@ public class AuthorServ{
     public AuthorDTO getAuthorByID(Long ID){
         if(authorRep.existsById(ID)){
             Author author = authorRep.getReferenceById(ID);
-            AuthorDTO authorDTO = new AuthorDTO(author.getAuthorID(), author.getName());
+            AuthorDTO authorDTO = new AuthorDTO(author.getAuthorID(), author.getName(), author.getWikiUrl(), author.getImageUrl());
             return authorDTO;
         }
         throw new IllegalArgumentException("This ID doesnt exist!");
@@ -85,5 +88,24 @@ public class AuthorServ{
             return author.getBooks();
         }
         throw new IllegalArgumentException("This ID doesnt exist!");
+    }
+
+    public Author getAuthorEntity(Long ID){
+        if (ID!=null && authorRep.existsById(ID)){
+            Author author = authorRep.getReferenceById(ID);
+            return author;
+        }
+        throw new IllegalArgumentException("This ID doesnt exist!");
+    }
+
+    public List<AuthorDTO> searchAuthorsByName(String name) {
+        List<Author> foundAuthors = authorRep.findByNameIgnoreCaseContaining(name);
+        List<AuthorDTO> result = new ArrayList<>();
+        for (Author author : foundAuthors) {
+            result.add(new AuthorDTO(
+                    author.getAuthorID(), author.getName(), author.getWikiUrl(), author.getImageUrl()
+            ));
+        }
+        return result;
     }
 }

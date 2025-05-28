@@ -2,9 +2,13 @@ package com.library_management.librarymanagement.DTOs.Author;
 
 public class AuthorSaveDTO {
     private String name;
+    private String wikiUrl;
+    private String imageUrl;
 
-    public AuthorSaveDTO(String name) {
+    public AuthorSaveDTO(String name, String wikiUrl, String imageUrl) {
         this.name = name;
+        this.wikiUrl = wikiUrl;
+        this.imageUrl = imageUrl;
     }
 
     public AuthorSaveDTO() {
@@ -18,10 +22,19 @@ public class AuthorSaveDTO {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "AuthorSaveDTO{" +
-                "name='" + name + '\'' +
-                '}';
+    public String getWikiUrl() {
+        return wikiUrl;
+    }
+
+    public void setWikiUrl(String wikiUrl) {
+        this.wikiUrl = wikiUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

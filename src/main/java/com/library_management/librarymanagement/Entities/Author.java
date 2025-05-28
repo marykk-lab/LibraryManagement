@@ -16,12 +16,23 @@ public class Author {
     @Column(name = "author_name", length = 40)
     private String name;
 
+    private String wikiUrl;
+    private String imageUrl;
+
     @OneToMany(mappedBy = "author")
     private Set<Book> books;
 
-    public Author(String name, Long authorID) {
-        this.name = name;
+    public Author(Long authorID, String name, String wikiUrl, String imageUrl) {
         this.authorID = authorID;
+        this.name = name;
+        this.wikiUrl = wikiUrl;
+        this.imageUrl = imageUrl;
+    }
+
+    public Author(String name, String wikiUrl, String imageUrl) {
+        this.name = name;
+        this.wikiUrl = wikiUrl;
+        this.imageUrl = imageUrl;
     }
 
     public boolean addBook(Book book){
@@ -32,9 +43,6 @@ public class Author {
         return false;
     }
 
-    public Author(String name) {
-        this.name = name;
-    }
 
     public Author() {
     }
@@ -61,6 +69,23 @@ public class Author {
 
     public void setBooks(Set<Book> books) {
         this.books = books;
+    }
+
+
+    public String getWikiUrl() {
+        return wikiUrl;
+    }
+
+    public void setWikiUrl(String wikiUrl) {
+        this.wikiUrl = wikiUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override

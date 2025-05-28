@@ -40,6 +40,9 @@ public class BookServ {
             Book book = bookRep.getReferenceById(bookUpdateDTO.getBookID());
             book.setTitle(bookUpdateDTO.getTitle());
             book.setAuthor(authorRep.getReferenceById(bookUpdateDTO.getAuthorID()));
+            book.setDescription(bookUpdateDTO.getDescription());
+            book.setQuantity(bookUpdateDTO.getQuantity());
+            book.setImageUrl(bookUpdateDTO.getImageUrl());
             bookRep.save(book);
             return "Book was updated - " + book.getTitle();
         }

@@ -10,7 +10,7 @@ FROM openjdk:21-jdk-slim AS final
 WORKDIR /app
 LABEL authors="Maksym Osetsymskyi"
 
-COPY --from=builder /app/target/*.jar app.jar
+COPY --from=builder /app/target/LibraryManagement-0.0.1-SNAPSHOT-exec.jar app.jar
 
 EXPOSE 9000
 ENTRYPOINT ["java", "-jar", "app.jar"]

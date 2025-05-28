@@ -67,7 +67,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/signin", "/signup", "/auth/**", "/auth/rest/signup", "/auth/rest/signin").permitAll()
                         .requestMatchers("/api/book/admin/**", "/api/author/admin/**", "/api/borrow/admin", "/admin/**",
-                                            "/book/admin/**").hasRole("ADMIN")
+                                            "/book/admin/**", "/author/admin/**", "/borrow/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout
