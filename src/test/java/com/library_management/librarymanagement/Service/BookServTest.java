@@ -17,20 +17,37 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Test class for {@link BookServ} that verifies the functionality of book management operations.
+ * Uses Mockito for mocking dependencies.
+ */
 class BookServTest {
+    /** Mock repository for book data access */
     @Mock
     private BookRep bookRep;
+
+    /** Mock repository for author data access */
     @Mock
     private AuthorRep authorRep;
 
+    /** The service being tested */
     @InjectMocks
     private BookServ bookServ;
 
+    /**
+     * Sets up the test environment before each test.
+     * Initializes mock objects using MockitoAnnotations.
+     */
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
+    /**
+     * Tests the addition of a new book.
+     * Verifies that the service returns the correct confirmation message
+     * when adding a book with a valid author reference.
+     */
     @Test
     void testAddBook() {
         BookSaveDTO dto = new BookSaveDTO("Book Title", 1L, "Description", 1, "img");
@@ -45,7 +62,11 @@ class BookServTest {
         assertEquals("Book was added - Book Title", result);
     }
 
-
+    /**
+     * Tests the book update functionality.
+     * Verifies that an existing book can be updated with new information
+     * and the correct confirmation message is returned.
+     */
     @Test
     void testUpdateBook() {
         BookUpdateDTO dto = new BookUpdateDTO(1L, "Updated Title", 1L, "descriptiond", 4, "img");
@@ -63,7 +84,11 @@ class BookServTest {
         verify(bookRep).save(book);
     }
 
-
+    /**
+     * Tests retrieval of all books.
+     * Verifies that the service correctly converts and returns book data
+     * including associated author information.
+     */
     @Test
     void testGetBooks() {
         Author author = new Author("author", "wiki", "img");
@@ -79,7 +104,10 @@ class BookServTest {
         assertEquals("title", books.get(0).getTitle());
     }
 
-
+    /**
+     * Tests the deletioning of a book by ID.
+     * Verifies that the service returns the correct ID after successful deletion.
+     */
     @Test
     void testDeleteBookById() {
         when(bookRep.existsById(1L)).thenReturn(true);
@@ -90,7 +118,11 @@ class BookServTest {
         verify(bookRep).deleteById(1L);
     }
 
-
+    /**
+     * Tests the deletion of a book by title.
+     * Verifies that the service correctly identifies and deletes the book,
+     * returning appropriate confirmation message.
+     */
     @Test
     void testDeleteBookByTitle() {
         Author author = new Author("author", "wiki", "img");
@@ -106,6 +138,11 @@ class BookServTest {
         verify(bookRep).deleteById(1L);
     }
 
+    /**
+     * Tests retrieval of a specific book by ID.
+     * Verifies that the service returns the correct book data
+     * when requestsg an egxisting book.
+     */
     @Test
     void testGetBookByID() {
         Author author = new Author("author", "wiki", "img");
@@ -121,7 +158,11 @@ class BookServTest {
         assertEquals("title", dto.getTitle());
     }
 
-
+    /**
+     * Tests retrieval of borrows for a specific book.
+     * Verifies that thdqe service correctly returns the set of borrows
+     * associated with the specified book ID.
+     */
     @Test
     void testGetBorrowsById() {
         Book book = mock(Book.class);
@@ -135,7 +176,11 @@ class BookServTest {
         assertSame(borrowSet, result);
     }
 
-
+    /**
+     * Tests the book search functionality by title.
+     * Verifies that the service correctly finds and returns books
+     * matching the search criteriad
+     */
     @Test
     void testSearchBooksByTitle() {
         Author author = new Author("Vojta", "wiki", "img");
@@ -150,5 +195,4 @@ class BookServTest {
         assertEquals(1, dtos.size());
         assertEquals("PROTEIN", dtos.get(0).getTitle());
     }
-
 }

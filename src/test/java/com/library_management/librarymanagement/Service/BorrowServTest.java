@@ -19,22 +19,43 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class BorrowServTest {@Mock
-private UserRep userRep;
+/**
+ * Test class for {@link BorrowServ} that verifies the functionality of borrowing operations.
+ * Uses Mockito for mocking dependencies and testing the service layer logic.
+ */
+class BorrowServTest {
+    /** Mock repository for user data access */
+    @Mock
+    private UserRep userRep;
+
+    /** Mock repository for borrow data access */
     @Mock
     private BorrowRep borrowRep;
+
+    /** Mock repository for book data access */
     @Mock
     private BookRep bookRep;
 
+    /** The service being tested */
     @InjectMocks
     private BorrowServ borrowServ;
 
+    /**
+     * Sets up the test environment before each test.
+     * Initializes mock objects using MockitoAnnotations.
+     */
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
-
+    /**
+     * Tests the creation of a new borrow record.
+     * Verifies that:
+     * - The book quantity is decremented
+     * - The borrow is added to both user and book
+     * - The borrow is saved in the repository
+     */
     @Test
     void testAddBorrow() {
         BorrowSaveDTO dto = new BorrowSaveDTO(1L, 2L, LocalDate.now(), LocalDate.now().plusDays(7));
@@ -54,7 +75,11 @@ private UserRep userRep;
         verify(borrowRep).save(any(Borrow.class));
     }
 
-
+    /**
+     * Tests retrieval of all borrow records.
+     * Verifies that the service correctly converts and returns borrow data
+     * including associated book and user information.
+     */
     @Test
     void testGetBorrows() {
         Borrow borrow = mock(Borrow.class);
@@ -80,7 +105,12 @@ private UserRep userRep;
         assertEquals("test", result.get(0).getUsername());
     }
 
-
+    /**
+     * Tests the deletion of a borrow record by ID.
+     * Verifies that:
+     * - The book quantity is incremented back
+     * - The borrow record is deleted from the repository
+     */
     @Test
     void testDeleteBorrowByID() {
         Borrow borrow = mock(Borrow.class);
@@ -100,7 +130,11 @@ private UserRep userRep;
         verify(borrowRep).deleteById(10L);
     }
 
-
+    /**
+     * Tests retrieval of a specific borrow record by ID.
+     * Verifies that the service returns the correct borrow data
+     * including associated book title and username.
+     */
     @Test
     void testGetBorrowByID() {
         Borrow borrow = mock(Borrow.class);
@@ -126,7 +160,13 @@ private UserRep userRep;
         assertEquals("test", dto.getUsername());
     }
 
-
+    /**
+     * Tests the update functionality of a borrow record.
+     * Verifies that:
+     * - The book and user references are updated
+     * - The borrowing and return dates are updated
+     * - The updated borrow is saved in the repository
+     */
     @Test
     void testUpdateBorrow() {
         BorrowUpdateDTO dto = new BorrowUpdateDTO(5L, 1L, "Title", 2L, LocalDate.now(), LocalDate.now().plusDays(1));
@@ -149,5 +189,4 @@ private UserRep userRep;
         verify(borrow).setReturnDate(dto.getReturnDate());
         verify(borrowRep).save(borrow);
     }
-
 }

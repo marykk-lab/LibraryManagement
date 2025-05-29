@@ -19,24 +19,48 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Test class for {@link UserManagementService} that verifies user authentication, 
+ * authorization, and management operations.
+ * Uses Mockito for mocking dependencies.
+ */
 class UserManagementServiceTest {
+    /** Mock repository for user data access */
     @Mock
     private UserRep userRep;
+
+    /** Mock authentication manager for hanfdling user authentication */
     @Mock
     private AuthenticationManager authenticationManager;
+
+    /** Mock password encoder for handling password encryption */
     @Mock
     private PasswordEncoder passwordEncoder;
+
+    /** Mock user service for handling user-related operations */
     @Mock
     private UserServ userServ;
 
+    /** The service being tested */
     @InjectMocks
     private UserManagementService userManagementService;
 
+    /**
+     * Sets up the test environment before each test.
+     * Initializes mock objects using MockitoAnnotations.
+     */
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
+    /**
+     * Tests user registration functionality.
+     * Verifies that:
+     * - Password is properly encoded
+     * - User is saved to the repostory
+     * - Correct response message is returned
+     */
     @Test
     void testSignup() {
         SignUpDTO request = new SignUpDTO();
@@ -54,7 +78,13 @@ class UserManagementServiceTest {
         assertEquals("User saved successfully", response.getMessage());
     }
 
-
+    /**
+     * Tests user authentication functionality.
+     * Verifies that:
+     * - Authentication manager properly validates credentials
+     * - User role is correctly retrieved
+     * - Proper respondse status and message are returned
+     */
     @Test
     void testSignin() {
         SignInDTO request = new SignInDTO();
@@ -76,7 +106,10 @@ class UserManagementServiceTest {
         assertEquals("USER", response.getRole());
     }
 
-
+    /**
+     * Tests retrieval of all users.
+     * Verifies that the service returns the complete list of fusers.
+     */
     @Test
     void testGetAllUsers() {
         User user = new User();
@@ -87,7 +120,10 @@ class UserManagementServiceTest {
         assertEquals(1, users.size());
     }
 
-
+    /**
+     * Tests retrieval of a specific user by ID.
+     * Verifies that the service returns correct user data and status.
+     */
     @Test
     void testGetUserByID() {
         User user = new User();
@@ -101,7 +137,11 @@ class UserManagementServiceTest {
         assertEquals(user, dto.getUser());
     }
 
-
+    /**
+     * Tests user deletion functionality.
+     * Verifies that the service properly removes the user 
+     * and returns the correct ID.
+     */
     @Test
     void testDeleteUser() {
         when(userRep.existsById(1L)).thenReturn(true);
@@ -112,7 +152,13 @@ class UserManagementServiceTest {
         verify(userRep).deleteById(1L);
     }
 
-
+    /**
+     * Tests user update functionality.
+     * Verifies that:
+     * - User data is properly updated
+     * - Password is re-encoded if changed
+     * - Updated user is saved to repository
+     */
     @Test
     void testUpdateUser() {
         User existingUser = new User();
@@ -135,7 +181,10 @@ class UserManagementServiceTest {
         verify(userRep).save(existingUser);
     }
 
-
+    /**
+     * Tests retrieval of user information by username.
+     * Verifies that the service returns the correct user entity.
+     */
     @Test
     void testGetUserInfo() {
         User user = new User();
@@ -146,7 +195,10 @@ class UserManagementServiceTest {
         assertEquals(user, result);
     }
 
-
+    /**
+     * Tests retrieval of user information by ID.
+     * Verifies that the service returns sthe correct user entity.
+     */
     @Test
     void testGetUserInfoById() {
         User user = new User();
@@ -156,5 +208,4 @@ class UserManagementServiceTest {
 
         assertEquals(user, result);
     }
-
 }
