@@ -1,0 +1,153 @@
+package com.library_management.librarymanagement.Service;
+
+import com.library_management.librarymanagement.DTOs.Borrow.BorrowDTO;
+import com.library_management.librarymanagement.DTOs.Borrow.BorrowSaveDTO;
+import com.library_management.librarymanagement.DTOs.Borrow.BorrowUpdateDTO;
+import com.library_management.librarymanagement.Entities.Book;
+import com.library_management.librarymanagement.Entities.Borrow;
+import com.library_management.librarymanagement.Entities.User;
+import com.library_management.librarymanagement.Repositories.BookRep;
+import com.library_management.librarymanagement.Repositories.BorrowRep;
+import com.library_management.librarymanagement.Repositories.UserRep;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.*;
+
+import java.time.LocalDate;
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class BorrowServTest {@Mock
+private UserRep userRep;
+    @Mock
+    private BorrowRep borrowRep;
+    @Mock
+    private BookRep bookRep;
+
+    @InjectMocks
+    private BorrowServ borrowServ;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
+
+    @Test
+    void testAddBorrow() {
+        BorrowSaveDTO dto = new BorrowSaveDTO(1L, 2L, LocalDate.now(), LocalDate.now().plusDays(7));
+        Book book = mock(Book.class);
+        when(book.getQuantity()).thenReturn(1);
+        User user = mock(User.class);
+
+        when(bookRep.getReferenceById(1L)).thenReturn(book);
+        when(userRep.getReferenceById(2L)).thenReturn(user);
+
+        Long result = borrowServ.addBorrow(dto);
+
+        assertEquals(1L, result);
+        verify(book).minusBook();
+        verify(user).addBorrow(any(Borrow.class));
+        verify(book).addBorrow(any(Borrow.class));
+        verify(borrowRep).save(any(Borrow.class));
+    }
+
+
+    @Test
+    void testGetBorrows() {
+        Borrow borrow = mock(Borrow.class);
+        when(borrow.getBorrowID()).thenReturn(1L);
+        when(borrow.getBorrowingDate()).thenReturn(LocalDate.now());
+        when(borrow.getReturnDate()).thenReturn(LocalDate.now().plusDays(7));
+        Book book = mock(Book.class);
+        when(book.getBookID()).thenReturn(1L);
+        when(book.getTitle()).thenReturn("Title");
+        when(borrow.getBook()).thenReturn(book);
+        User user = mock(User.class);
+        when(user.getUserID()).thenReturn(2L);
+        when(user.getUsername()).thenReturn("test");
+        when(borrow.getUser()).thenReturn(user);
+
+        when(borrowRep.findAll()).thenReturn(List.of(borrow));
+        when(borrowRep.getReferenceById(1L)).thenReturn(borrow);
+
+        ArrayList<BorrowDTO> result = borrowServ.getBorrows();
+
+        assertEquals(1, result.size());
+        assertEquals("Title", result.get(0).getBookTitle());
+        assertEquals("test", result.get(0).getUsername());
+    }
+
+
+    @Test
+    void testDeleteBorrowByID() {
+        Borrow borrow = mock(Borrow.class);
+        Book book = mock(Book.class);
+        when(borrow.getBook()).thenReturn(book);
+        when(borrow.getBorrowID()).thenReturn(10L);
+        when(book.getBookID()).thenReturn(1L);
+
+        when(borrowRep.existsById(10L)).thenReturn(true);
+        when(borrowRep.getReferenceById(10L)).thenReturn(borrow);
+        when(bookRep.getReferenceById(1L)).thenReturn(book);
+
+        Long result = borrowServ.deleteBorrowByID(10L);
+
+        assertEquals(10L, result);
+        verify(book).plusBook();
+        verify(borrowRep).deleteById(10L);
+    }
+
+
+    @Test
+    void testGetBorrowByID() {
+        Borrow borrow = mock(Borrow.class);
+        when(borrow.getBorrowID()).thenReturn(3L);
+        when(borrow.getBorrowingDate()).thenReturn(LocalDate.now());
+        when(borrow.getReturnDate()).thenReturn(LocalDate.now().plusDays(2));
+        Book book = mock(Book.class);
+        when(book.getBookID()).thenReturn(1L);
+        when(book.getTitle()).thenReturn("title");
+        User user = mock(User.class);
+        when(user.getUserID()).thenReturn(2L);
+        when(user.getUsername()).thenReturn("test");
+        when(borrow.getBook()).thenReturn(book);
+        when(borrow.getUser()).thenReturn(user);
+
+        when(borrowRep.existsById(3L)).thenReturn(true);
+        when(borrowRep.getReferenceById(3L)).thenReturn(borrow);
+
+        BorrowDTO dto = borrowServ.getBorrowByID(3L);
+
+        assertEquals(3L, dto.getBorrowID());
+        assertEquals("title", dto.getBookTitle());
+        assertEquals("test", dto.getUsername());
+    }
+
+
+    @Test
+    void testUpdateBorrow() {
+        BorrowUpdateDTO dto = new BorrowUpdateDTO(5L, 1L, "Title", 2L, LocalDate.now(), LocalDate.now().plusDays(1));
+        Borrow borrow = mock(Borrow.class);
+
+        when(borrowRep.existsById(5L)).thenReturn(true);
+        when(borrowRep.getReferenceById(5L)).thenReturn(borrow);
+
+        Book book = mock(Book.class);
+        when(bookRep.getReferenceById(1L)).thenReturn(book);
+        User user = mock(User.class);
+        when(userRep.getReferenceById(2L)).thenReturn(user);
+
+        String result = borrowServ.updateBorrow(dto);
+
+        assertEquals("Borrow was updated!", result);
+        verify(borrow).setBook(book);
+        verify(borrow).setUser(user);
+        verify(borrow).setBorrowingDate(dto.getBorrowingDate());
+        verify(borrow).setReturnDate(dto.getReturnDate());
+        verify(borrowRep).save(borrow);
+    }
+
+}

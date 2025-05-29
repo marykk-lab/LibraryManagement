@@ -1,8 +1,6 @@
 package com.library_management.librarymanagement.Controllers.View;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.library_management.librarymanagement.DTOs.Borrow.BorrowUpdateDTO;
@@ -27,6 +25,9 @@ import com.library_management.librarymanagement.DTOs.Borrow.BorrowDTO;
 import com.library_management.librarymanagement.DTOs.Borrow.BorrowSaveDTO;
 import com.library_management.librarymanagement.Service.BorrowServ;
 
+/**
+ * Controller for handling borrow-related view operations in the library management system.
+ */
 @Controller
 @RequestMapping("borrow")
 public class BorrowViewController {
@@ -39,6 +40,13 @@ public class BorrowViewController {
     @Autowired
     private UserManagementService userManagementService;
 
+    /**
+     * Handles admin's request to add a new borrow record.
+     * 
+     * @param borrowSaveDTO DTO containing borrow details
+     * @param redirectAttributes for flash messages
+     * @return redirect to admin dashboard
+     */
     @PostMapping(path = "/admin/add")
     public String addBorrowAdmin(@ModelAttribute BorrowSaveDTO borrowSaveDTO, RedirectAttributes redirectAttributes){
         try{
@@ -50,6 +58,13 @@ public class BorrowViewController {
         return "redirect:/admin/dashboard";
     }
 
+    /**
+     * Handles user's request to borrow a book.
+     * 
+     * @param borrowSaveDTO DTO containing borrow details
+     * @param redirectAttributes for flash messages
+     * @return redirect to home page
+     */
     @PostMapping("/add")
     public String addBorrowUser(@ModelAttribute BorrowSaveDTO borrowSaveDTO, RedirectAttributes redirectAttributes) {
         try{
@@ -66,7 +81,13 @@ public class BorrowViewController {
         return "redirect:/";
     }
 
-
+    /**
+     * Removes a borrow record by its ID.
+     * 
+     * @param id the ID of the borrow record to delete
+     * @param redirectAttributes for flash messages
+     * @return redirect to admin dashboard
+     */
     @PostMapping(path = "/admin/delete/{id}")
     public String removeBorrow(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         borrowServ.deleteBorrowByID(id);
@@ -74,6 +95,14 @@ public class BorrowViewController {
         return "redirect:/admin/dashboard";
     }
 
+    /**
+     * Updates an existing borrow record.
+     * 
+     * @param borrowUpdateDTO DTO containing updated borrow details
+     * @param id the ID of the borrow record to update
+     * @param redirectAttributes for flash messages
+     * @return redirect to admin dashboard
+     */
     @PostMapping(path = "/admin/update/{id}")
     public String updateBorrow(@ModelAttribute BorrowUpdateDTO borrowUpdateDTO, @PathVariable Long id, RedirectAttributes redirectAttributes) {
         borrowServ.updateBorrow(borrowUpdateDTO);
@@ -81,6 +110,12 @@ public class BorrowViewController {
         return "redirect:/admin/dashboard";
     }
 
+    /**
+     * Displays the form for adding a new borrow record (admin view).
+     * 
+     * @param model Spring MVC model
+     * @return add borrow form view
+     */
     @GetMapping(path = "/admin/add")
     public String addBorrowFormAdmin(Model model) {
         model.addAttribute("borrow", new BorrowSaveDTO());
@@ -89,7 +124,12 @@ public class BorrowViewController {
         return "add_borrow";
     }
 
-
+    /**
+     * Displays list of all borrows (admin view).
+     * 
+     * @param model Spring MVC model
+     * @return admin borrows list view
+     */
     @GetMapping(path = "/admin")
     public String getBorrowsAdmin(Model model){
         List<BorrowDTO> borrows =  borrowServ.getBorrows();
@@ -97,6 +137,13 @@ public class BorrowViewController {
         return "borrows_list_admin";
     }
 
+    /**
+     * Displays the form for updating a borrow record.
+     * 
+     * @param id ID of the borrow record to update
+     * @param model Spring MVC model
+     * @return update borrow form view
+     */
     @GetMapping(path = "/admin/update/{id}")
     public String updateBorrowForm(@PathVariable Long id, Model model) {
         BorrowDTO borrowDTO = borrowServ.getBorrowByID(id);
@@ -106,6 +153,12 @@ public class BorrowViewController {
         return "update_borrow";
     }
 
+    /**
+     * Displays list of current user's borrows.
+     * 
+     * @param model Model for giving template neccessary data.
+     * @return user borrows list view
+     */
     @GetMapping()
     public String getBorrows(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

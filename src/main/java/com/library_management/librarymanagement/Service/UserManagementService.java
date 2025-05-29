@@ -15,14 +15,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service class for managing user operations including authentication and user data management.
+ * Handles user registration, authentication, and profile management functionalities.
+ */
 @Service
 public class UserManagementService {
     private UserRep userRep;
-
     private AuthenticationManager authenticationManager;
     private PasswordEncoder passwordEncoder;
     private UserServ userServ;
 
+    /**
+     * Constructs a new UserManagementService with required dependencies.
+     *
+     * @param userRep Authentication repository for user data access
+     * @param authenticationManager Spring Security authentication manager
+     * @param passwordEncoder Password encoder for secure password storage
+     * @param userServ User service for additional user operations
+     */
     public UserManagementService(UserRep userRep, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, UserServ userServ) {
         this.userRep = userRep;
         this.authenticationManager = authenticationManager;
@@ -30,6 +41,13 @@ public class UserManagementService {
         this.userServ = userServ;
     }
 
+    /**
+     * Registers a new user in the system.
+     * Creates a new user with encoded password and default USER role.
+     *
+     * @param registrationRequest DTO containing registration information
+     * @return SignUpDTO containing registration status and any error messages
+     */
     public SignUpDTO signup(SignUpDTO registrationRequest) {
         SignUpDTO resp = new SignUpDTO();
         try {
@@ -51,6 +69,12 @@ public class UserManagementService {
         return resp;
     }
 
+    /**
+     * Authenticates a user and creates a security context.
+     *
+     * @param loginRequest DTO containing login credentials
+     * @return SignInDTO containing authentication status and user role
+     */
     public SignInDTO signin(SignInDTO loginRequest) {
         SignInDTO resp = new SignInDTO();
         try {
@@ -73,11 +97,22 @@ public class UserManagementService {
         return resp;
     }
 
+    /**
+     * Retrieves all users from the system.
+     *
+     * @return List of all User entities
+     */
     public List<User> getAllUsers() {
         List<User> usersList = userRep.findAll();
         return usersList;
     }
 
+    /**
+     * Retrieves user information by ID.
+     *
+     * @param id The ID of the user to retrieve
+     * @return SignInDTO containing user information and status
+     */
     public SignInDTO getUserByID(Long id) {
         SignInDTO signInDTO = new SignInDTO();
         try {
@@ -92,6 +127,13 @@ public class UserManagementService {
         return signInDTO;
     }
 
+    /**
+     * Deletes a user by their ID.
+     *
+     * @param id The ID of the user to delete
+     * @return The ID of the deleted user
+     * @throws IllegalArgumentException if the user is not found
+     */
     public Long deleteUser(Long id) {
         if (userRep.existsById(id)) {
             userRep.deleteById(id);
@@ -100,6 +142,14 @@ public class UserManagementService {
         throw new IllegalArgumentException("User not found");
     }
 
+    /**
+     * Updates user information.
+     * Only updates fields that are provided and not blank in the DTO.
+     *
+     * @param id The ID of the user to update
+     * @param updatedUser DTO containing the updated user information
+     * @return The ID of the updated user
+     */
     public Long updateUser(Long id, UserUpdateDTO updatedUser) {
         try {
             User existingUser = userRep.findById(id).orElseThrow();
@@ -112,7 +162,6 @@ public class UserManagementService {
             if(updatedUser.getRole()!=null && !updatedUser.getRole().isBlank()){
                 existingUser.setRole(updatedUser.getRole());
             }
-
             if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
                 existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
             }
@@ -129,6 +178,13 @@ public class UserManagementService {
         return id;
     }
 
+    /**
+     * Retrieves a user by username.
+     *
+     * @param username The username to search for
+     * @return The User entity
+     * @throws IllegalArgumentException if the username is empty or user not found
+     */
     public User getUserInfo(String username) {
         if (!username.isEmpty() && !username.isBlank()) {
             User user = userRep.findByUsername(username).orElseThrow(()->new RuntimeException("User not found"));
@@ -136,6 +192,14 @@ public class UserManagementService {
         }
         throw new IllegalArgumentException("User not found");
     }
+
+    /**
+     * Retrieves a user by ID.
+     *
+     * @param id The ID of the user to retrieve
+     * @return The User entity
+     * @throws IllegalArgumentException if the ID is null or user not found
+     */
     public User getUserInfoById(Long id) {
         if(id != null){
             return userRep.getReferenceById(id);

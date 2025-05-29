@@ -31,10 +31,12 @@ public class BookRestContr {
     public BookDTO getBookByID(@PathVariable Long id){
         return bookServ.getBookByID(id);
     }
+
     @GetMapping(path = "/admin/{id}")
     public Set<Borrow> getBorrowsById(@PathVariable Long id){
         return bookServ.getBorrowsById(id);
     }
+
     @PutMapping(path = "/admin")
     public String updateBook(@RequestBody BookUpdateDTO bookUpdateDTO){
         return bookServ.updateBook(bookUpdateDTO);

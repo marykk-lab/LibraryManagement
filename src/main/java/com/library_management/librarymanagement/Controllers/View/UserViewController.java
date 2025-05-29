@@ -14,6 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/**
+ * Controller for handling user authentication, registration, profile, and admin user management operations.
+ */
 @Controller
 @RequestMapping("/auth")
 public class UserViewController {
@@ -21,11 +24,24 @@ public class UserViewController {
     private final UserRep userRepository;
     private final UserManagementService userManagementService;
 
+    /**
+     * Constructs a new UserViewController with the given user repository and user management service.
+     *
+     * @param userRepository the repository for user data access
+     * @param userManagementService the service for managing user-related operations
+     */
     public UserViewController(UserRep userRepository, UserManagementService userManagementService) {
         this.userRepository = userRepository;
         this.userManagementService = userManagementService;
     }
 
+    /**
+     * Handles user registration requests.
+     *
+     * @param signUpDTO the registration data transfer object
+     * @param redirectAttributes attributes for a redirect scenario
+     * @return a redirect to the signup page if username exists, otherwise redirects to signin page
+     */
     @PostMapping("/signup")
     public String signUp(@ModelAttribute("signUpDTO") SignUpDTO signUpDTO, RedirectAttributes redirectAttributes) {
         if (userRepository.existsUserByUsername(signUpDTO.getUsername())) {
@@ -37,6 +53,14 @@ public class UserViewController {
         return "redirect:/auth/signin";
     }
 
+    /**
+     * Allows admin to update a user's information.
+     *
+     * @param userUpdateDTO the user update data transfer object
+     * @param userId the ID of the user to update
+     * @param redirectAttributes attributes for a redirect scenario
+     * @return a redirect to the admin dashboard
+     */
     @PostMapping("/admin/update/{userId}")
     public String updateUserAdmin(@ModelAttribute UserUpdateDTO userUpdateDTO, @PathVariable Long userId, RedirectAttributes redirectAttributes) {
         userManagementService.updateUser(userId, userUpdateDTO);
@@ -44,6 +68,13 @@ public class UserViewController {
         return "redirect:/admin/dashboard";
     }
 
+    /**
+     * Allows admin to delete a user.
+     *
+     * @param userId the ID of the user to delete
+     * @param redirectAttributes attributes for a redirect scenario
+     * @return a redirect to the admin dashboard
+     */
     @PostMapping("/admin/delete/{userId}")
     public String deleteUser(@PathVariable Long userId, RedirectAttributes redirectAttributes) {
         try{
@@ -56,6 +87,14 @@ public class UserViewController {
         return "redirect:/admin/dashboard";
     }
 
+    /**
+     * Allows a user to update their profile information.
+     *
+     * @param userUpdateDTO the user update data transfer object
+     * @param userId the ID of the user to update
+     * @param redirectAttributes attributes for a redirect scenario
+     * @return a redirect to the user profile page
+     */
     @PostMapping("/profile/update/{userId}")
     public String updateProfile(@ModelAttribute UserUpdateDTO userUpdateDTO, @PathVariable Long userId, RedirectAttributes redirectAttributes){
         try{
@@ -66,6 +105,15 @@ public class UserViewController {
         }
         return "redirect:/auth/profile";
     }
+
+    /**
+     * Displays the signup page.
+     *
+     * @param signUpDTO the registration data transfer object
+     * @param error error message to be displayed, if any
+     * @param model the model to add attributes to
+     * @return the register view
+     */
     @GetMapping("/signup")
     public String signupPage(@ModelAttribute("signUpDTO") SignUpDTO signUpDTO,
                              @RequestParam(value = "error", required = false) String error,
@@ -74,12 +122,24 @@ public class UserViewController {
         return "register";
     }
 
+    /**
+     * Displays the signin page.
+     *
+     * @param model the model to add attributes to
+     * @return the login view
+     */
     @GetMapping("/signin")
     public String signinPage(Model model) {
         model.addAttribute("signInDTO", new SignInDTO());
         return "login";
     }
 
+    /**
+     * Displays the profile page of the currently authenticated user.
+     *
+     * @param model the model to add attributes to
+     * @return the profile view
+     */
     @GetMapping("/profile")
     public String getUserProfile(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -89,12 +149,24 @@ public class UserViewController {
         return "profile";
     }
 
+    /**
+     * Displays the admin view with a list of all users.
+     *
+     * @param model the model to add attributes to
+     * @return the user list admin view
+     */
     @GetMapping("/admin")
     public String getAllUsers(Model model) {
         model.addAttribute("users", userRepository.findAll());
         return "user_list_admin";
     }
 
+    /**
+     * Displays the user profile update form for the currently authenticated user.
+     *
+     * @param model the model to add attributes to
+     * @return the update user view
+     */
     @GetMapping("/profile/update")
     public String updateProfileForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
